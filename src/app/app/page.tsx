@@ -64,13 +64,15 @@ export default async function DashboardPage() {
 
       <section className="mt-8 grid gap-5 lg:grid-cols-[1.4fr_.6fr]">
         <article className="system-frame panel p-6 sm:p-8">
-          <div className="flex items-start justify-between gap-4"><div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-muted">Proyección al consolidar</p><p className="mt-3 font-display text-5xl font-semibold">Nivel {progress?.current_level ?? 1}</p></div><div className="grid size-12 place-items-center rounded-2xl border border-cyan/30 bg-cyan/[0.07] text-cyan"><Zap size={22} /></div></div>
-          <div className="mt-8">
-            <div className="relative h-3 overflow-hidden rounded-full bg-[#17152d]" aria-label={`${Math.round(projectedPercent)}% proyectado del nivel`}>
-              <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-accent to-cyan transition-[width] duration-500" style={{ width: `${projectedPercent}%` }} />
-              <div className="absolute inset-y-0 left-0 rounded-full bg-accent" style={{ width: `${permanentPercent}%` }} />
+          <div className="flex items-center justify-between gap-4"><div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-muted">Proyección al consolidar</p><p className="mt-2 text-sm text-muted">Avance del nivel actual</p></div><div className="grid size-10 place-items-center rounded-xl border border-cyan/30 bg-cyan/[0.07] text-cyan"><Zap size={19} /></div></div>
+          <div className="mt-7 flex flex-col items-center gap-7 sm:flex-row sm:items-center sm:gap-9">
+            <div className="relative grid size-44 shrink-0 place-items-center rounded-full p-2.5 shadow-[0_0_38px_rgba(0,229,255,.13)] transition-[background] duration-700 sm:size-48" style={{ background: `conic-gradient(var(--accent) 0 ${permanentPercent}%, var(--cyan) ${permanentPercent}% ${projectedPercent}%, #17152d ${projectedPercent}% 100%)` }} aria-label={`${Math.round(projectedPercent)}% proyectado del nivel`}>
+              <div className="grid size-full place-items-center rounded-full border border-line bg-[#070712] text-center shadow-[inset_0_0_28px_rgba(0,0,0,.55)]"><div><p className="font-display text-xs uppercase tracking-[0.2em] text-muted">Nivel</p><p className="mt-1 font-display text-6xl font-bold leading-none text-foreground">{progress?.current_level ?? 1}</p><p className="mt-2 font-display text-[9px] uppercase tracking-[0.16em] text-cyan">{Math.round(projectedPercent)}% avance</p></div></div>
             </div>
-            <div className="mt-3 flex flex-wrap justify-between gap-2 text-xs"><span className="text-muted">{progress?.current_level_xp ?? 0} XP consolidada en el nivel</span><span className={provisionalXp < 0 ? "text-warning" : "text-cyan"}>{provisionalXp > 0 ? "+" : ""}{provisionalXp} XP provisional</span><span className="text-muted">Meta {progress?.xp_required_for_next_level ?? 400}</span></div>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"><span className="flex items-center gap-2 text-muted"><span className="size-2 rounded-full bg-accent" />Consolidada</span><span className="flex items-center gap-2 text-cyan"><span className="size-2 rounded-full bg-cyan" />Provisional</span></div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2"><div className="rounded-xl border border-line/70 bg-black/10 p-3"><p className="text-[10px] text-muted">XP en el nivel</p><p className="mt-1 font-semibold">{progress?.current_level_xp ?? 0} <span className="text-xs font-normal text-muted">/ {progress?.xp_required_for_next_level ?? 400}</span></p></div><div className="rounded-xl border border-line/70 bg-black/10 p-3"><p className="text-[10px] text-muted">XP provisional</p><p className={`mt-1 font-semibold ${provisionalXp < 0 ? "text-warning" : "text-cyan"}`}>{provisionalXp > 0 ? "+" : ""}{provisionalXp}</p></div></div>
+            </div>
           </div>
           <div className="mt-7 border-t border-line/60 pt-5">
             <div className="flex justify-between text-xs text-muted"><span>Pulso semanal</span><span>{Math.max(0, provisionalXp)} / 1,000 XP objetivo</span></div>

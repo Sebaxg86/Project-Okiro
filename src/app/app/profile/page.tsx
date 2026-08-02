@@ -1,5 +1,6 @@
 import { CalendarDays, LockKeyhole, LogOut, Scale, UserRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { GoalSettingsPanel } from "@/modules/profile/goal-settings";
 import { ProfileForm, WeightForm } from "@/modules/profile/profile-forms";
 import { signOutAction } from "@/modules/auth/actions";
 
@@ -8,9 +9,10 @@ export const dynamic = "force-dynamic";
 export default async function ProfilePage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const [{ data: profile }, { data: weights }] = await Promise.all([
-    supabase.from("profiles").select("full_name,display_name,birth_date,timezone,unit_system,created_at").eq("id", user!.id).single(),
+  const [{ data: profile }, { data: weights }, { data: goal }] = await Promise.all([
+    supabase.from("profiles").select("full_name,display_name,birth_date,timezone,unit_system,created_at,goal_change_used_at").eq("id", user!.id).single(),
     supabase.from("weight_entries").select("id,measured_on,weight_kg,source").eq("user_id", user!.id).order("measured_on", { ascending: false }).limit(12),
+    supabase.from("goal_versions").select("exercise_days_target,programming_days_target,intelligence_activity_type,intelligence_activity_label,hydration_target_ml,sleep_min_minutes,sleep_max_minutes,sleep_target_time,expected_main_meals,flexible_meals_per_week").eq("user_id", user!.id).is("effective_until", null).maybeSingle(),
   ]);
 
   if (!profile) return null;
@@ -25,6 +27,8 @@ export default async function ProfilePage() {
         <div className="mb-7 flex items-center gap-3"><div className="grid size-11 place-items-center rounded-2xl border border-accent/30 bg-accent/10 text-accent"><UserRound size={20} /></div><div><h2 className="font-display text-lg font-semibold uppercase">Datos de identidad</h2><p className="text-xs text-muted">Cuenta vinculada: {user?.email}</p></div></div>
         <ProfileForm profile={{ ...profile, unit_system: unitSystem }} />
       </section>
+
+      {goal && <GoalSettingsPanel goal={goal} canChange={!profile.goal_change_used_at} changedAt={profile.goal_change_used_at} />}
 
       <section id="weight" className="panel mt-5 scroll-mt-24 p-6 sm:p-8">
         <div className="mb-7 flex items-center gap-3"><div className="grid size-11 place-items-center rounded-2xl border border-cyan/30 bg-cyan/[0.07] text-cyan"><Scale size={20} /></div><div><h2 className="font-display text-lg font-semibold uppercase">Registro de peso</h2><p className="text-xs text-muted">Seguimiento privado. No modifica tu XP.</p></div></div>

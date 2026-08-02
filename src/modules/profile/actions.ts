@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { profileSchema, weightSchema } from "./schemas";
+import { intelligenceActivityLabel } from "@/modules/intelligence/activities";
+import { goalSettingsSchema, profileSchema, weightSchema } from "./schemas";
 
 export type ProfileActionState = { error?: string; success?: string };
 
@@ -61,4 +62,43 @@ export async function saveWeightAction(_state: ProfileActionState, formData: For
   revalidatePath("/app/progress");
   revalidatePath("/app/profile");
   return { success: "Medición guardada." };
+}
+
+export async function updateGoalSettingsAction(_state: ProfileActionState, formData: FormData): Promise<ProfileActionState> {
+  const parsed = goalSettingsSchema.safeParse({
+    exerciseDaysTarget: formData.get("exerciseDaysTarget"),
+    intelligenceDaysTarget: formData.get("intelligenceDaysTarget"),
+    intelligenceActivityType: formData.get("intelligenceActivityType"),
+    intelligenceCustomLabel: formData.get("intelligenceCustomLabel") ?? "",
+    hydrationTargetMl: formData.get("hydrationTargetMl"),
+    sleepMinHours: formData.get("sleepMinHours"),
+    sleepMaxHours: formData.get("sleepMaxHours"),
+    sleepTargetTime: formData.get("sleepTargetTime"),
+    expectedMainMeals: formData.get("expectedMainMeals"),
+    flexibleMealsPerWeek: formData.get("flexibleMealsPerWeek"),
+  });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Revisa los parámetros del ciclo." };
+
+  const { supabase } = await getUser();
+  const values = parsed.data;
+  const { error } = await supabase.rpc("update_goal_configuration_once", {
+    p_exercise_days_target: values.exerciseDaysTarget,
+    p_programming_days_target: values.intelligenceDaysTarget,
+    p_intelligence_activity_type: values.intelligenceActivityType,
+    p_intelligence_activity_label: intelligenceActivityLabel(values.intelligenceActivityType, values.intelligenceCustomLabel),
+    p_hydration_target_ml: values.hydrationTargetMl,
+    p_sleep_min_minutes: Math.round(values.sleepMinHours * 60),
+    p_sleep_max_minutes: Math.round(values.sleepMaxHours * 60),
+    p_sleep_target_time: values.sleepTargetTime,
+    p_expected_main_meals: values.expectedMainMeals,
+    p_flexible_meals_per_week: values.flexibleMealsPerWeek,
+  });
+
+  if (error) {
+    if (error.message.includes("already used")) return { error: "El cambio único de configuración ya fue utilizado." };
+    return { error: "No fue posible actualizar tus parámetros. Inténtalo nuevamente." };
+  }
+
+  revalidatePath("/app", "layout");
+  return { success: "Configuración actualizada. Tus nuevos parámetros ya están activos." };
 }

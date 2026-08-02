@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { profileSchema, weightSchema } from "./schemas";
+import { goalSettingsSchema, profileSchema, weightSchema } from "./schemas";
 
 describe("profile schemas", () => {
   it("accepts private profile information", () => {
@@ -11,5 +11,21 @@ describe("profile schemas", () => {
     expect(weightSchema.safeParse({ measuredOn: "2026-08-02", weight: "160", unitSystem: "imperial" }).success).toBe(true);
     expect(weightSchema.safeParse({ measuredOn: "2026-08-02", weight: "8", unitSystem: "metric" }).success).toBe(false);
   });
-});
 
+  it("accepts valid cycle parameters and rejects invalid sleep ranges", () => {
+    const goals = {
+      exerciseDaysTarget: "4",
+      intelligenceDaysTarget: "3",
+      intelligenceActivityType: "reading",
+      intelligenceCustomLabel: "",
+      hydrationTargetMl: "2500",
+      sleepMinHours: "7",
+      sleepMaxHours: "9",
+      sleepTargetTime: "23:30",
+      expectedMainMeals: "3",
+      flexibleMealsPerWeek: "2",
+    };
+    expect(goalSettingsSchema.safeParse(goals).success).toBe(true);
+    expect(goalSettingsSchema.safeParse({ ...goals, sleepMinHours: "10", sleepMaxHours: "7" }).success).toBe(false);
+  });
+});

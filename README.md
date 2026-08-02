@@ -19,6 +19,7 @@ This project was developed as a personal product-development initiative and incl
 - ✅ Email authentication, profile creation, and goal onboarding
 - ✅ Private weight history separated from the XP economy
 - ✅ A secure, responsive PWA foundation with per-user data isolation through Row Level Security
+- ✅ Live weekly XP, provisional ranks, daily missions, attributes, streaks, and automatic weekly consolidation
 
 ## 🧭 Current Stage
 
@@ -29,6 +30,13 @@ The first application foundation is ready and includes:
 - Functional History, Progress, and Profile navigation
 - Real exercise, sleep, meal, hydration, and programming records
 - Server-calculated provisional XP with daily and weekly limits
+- A live XP bar that responds immediately to positive and negative provisional XP
+- Real-time weekly ranks from S through E with coverage safeguards
+- Goal-aware daily missions with automatic completion and weekly bonus limits
+- Five calculated attributes: Strength, Endurance, Vitality, Intelligence, and Discipline
+- Daily and weekly streaks with one-time milestone rewards
+- Scheduled, auditable, and idempotent weekly closing with permanent progression
+- Consolidated weekly reports with pillar scores and XP breakdowns
 - Auditable recalculation, idempotent retries, editing, and soft deletion
 - A tested initial XP domain module
 - Cookie-based Supabase authentication for server and browser flows
@@ -36,7 +44,7 @@ The first application foundation is ready and includes:
 - Email/password registration and sign-in with Supabase SSR
 - A public landing page and onboarding-protected `/app` area
 
-New accounts intentionally begin with empty activity and XP states; the application does not display representative user data. Weekly consolidation, ranks, missions, and streaks remain future stages.
+New accounts intentionally begin with empty activity and XP states; the application does not display representative user data. All visible progression is calculated from the signed-in user's real records.
 
 ## 💻 Local Development
 

@@ -10,6 +10,7 @@ import {
   Plus,
   Settings,
   ShieldCheck,
+  Target,
   UserRound,
 } from "lucide-react";
 import { signOutAction } from "@/modules/auth/actions";
@@ -73,6 +74,7 @@ export function AppShell({
         <nav className="mt-12 space-y-1" aria-label="Navegación principal">
           <NavLink {...navItems[0]} />
           <Link href="/app/log" className="flex h-11 items-center gap-3 rounded-xl px-3 text-sm text-muted transition hover:bg-white/[0.04] hover:text-foreground"><Plus size={18} />Registrar</Link>
+          <Link href="/app/missions" className="flex h-11 items-center gap-3 rounded-xl px-3 text-sm text-muted transition hover:bg-white/[0.04] hover:text-foreground"><Target size={18} />Misiones</Link>
           {navItems.slice(1).map((item) => <NavLink key={item.href} {...item} />)}
         </nav>
 

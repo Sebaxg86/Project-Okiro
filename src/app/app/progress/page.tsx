@@ -30,45 +30,45 @@ export default async function ProgressPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8 lg:px-10">
-      <header><p className="font-display text-[10px] uppercase tracking-[0.22em] text-cyan">Evolución verificable</p><h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[-0.04em]">Progreso</h1><p className="mt-2 text-sm text-muted">Tus avances permanentes y el impulso que aún está pendiente de consolidación.</p></header>
+      <header><p className="font-display text-[10px] uppercase tracking-[0.22em] text-cyan">Ascenso registrado</p><h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[-0.04em]">Ascenso</h1><p className="mt-2 text-sm text-muted">Consulta tu nivel, atributos y experiencia pendiente del ciclo actual.</p></header>
 
       <section className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat icon={Zap} label="Nivel actual" value={String(progress?.current_level ?? 1)} />
-        <Stat icon={ShieldCheck} label="XP consolidada" value={`${progress?.total_consolidated_xp ?? 0} XP`} />
-        <Stat icon={BarChart3} label="Avance permanente" value={`${Math.round(permanentPercent)}%`} />
-        <Stat icon={Zap} label="XP provisional" value={`${provisionalXp > 0 ? "+" : ""}${provisionalXp} XP`} warning={provisionalXp < 0} />
+        <Stat icon={Zap} label="Nivel" value={String(progress?.current_level ?? 1)} />
+        <Stat icon={ShieldCheck} label="XP asegurada" value={`${progress?.total_consolidated_xp ?? 0} XP`} />
+        <Stat icon={BarChart3} label="Progreso permanente" value={`${Math.round(permanentPercent)}%`} />
+        <Stat icon={Zap} label="XP pendiente" value={`${provisionalXp > 0 ? "+" : ""}${provisionalXp} XP`} warning={provisionalXp < 0} />
       </section>
 
       <section className="system-frame panel mt-5 p-6 sm:p-8">
-        <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Proyección de nivel</p><h2 className="mt-2 font-display text-2xl font-semibold uppercase">Nivel {progress?.current_level ?? 1}</h2></div><p className="text-sm text-muted"><span className={provisionalXp < 0 ? "text-warning" : "text-cyan"}>{provisionalXp > 0 ? "+" : ""}{provisionalXp} provisional</span> · meta {progress?.xp_required_for_next_level ?? 400} XP</p></div>
+        <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Ascenso previsto</p><h2 className="mt-2 font-display text-2xl font-semibold uppercase">Nivel {progress?.current_level ?? 1}</h2></div><p className="text-sm text-muted"><span className={provisionalXp < 0 ? "text-warning" : "text-cyan"}>{provisionalXp > 0 ? "+" : ""}{provisionalXp} XP pendiente</span> · siguiente nivel {progress?.xp_required_for_next_level ?? 400} XP</p></div>
         <div className="relative mt-6 h-3 overflow-hidden rounded-full bg-[#17152d]">
           <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-accent to-cyan" style={{ width: `${projectedPercent}%` }} />
           <div className="absolute inset-y-0 left-0 rounded-full bg-accent" style={{ width: `${permanentPercent}%` }} />
         </div>
-        <div className="mt-3 flex justify-between text-xs text-muted"><span>{progress?.current_level_xp ?? 0} XP consolidada en este nivel</span><span>{Math.round(projectedPercent)}% proyectado</span></div>
+        <div className="mt-3 flex justify-between text-xs text-muted"><span>{progress?.current_level_xp ?? 0} XP asegurada en este nivel</span><span>{Math.round(projectedPercent)}% con XP pendiente</span></div>
       </section>
 
       <section className="panel mt-5 p-6 sm:p-8">
-        <div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Atributos calculados</p><h2 className="mt-2 font-display text-xl font-semibold uppercase">Desarrollo del cazador</h2><p className="mt-2 text-xs text-muted">La sección translúcida incluye XP positiva de la semana; será permanente al cerrar el ciclo.</p></div>
+        <div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Atributos</p><h2 className="mt-2 font-display text-xl font-semibold uppercase">Desarrollo del cazador</h2><p className="mt-2 text-xs text-muted">La franja luminosa representa la XP pendiente del ciclo.</p></div>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">{((attributes ?? []) as Attribute[]).map((attribute) => <AttributeCard key={attribute.attribute} attribute={attribute} pending={pendingFor(attribute.attribute)} />)}</div>
       </section>
 
       <section className="mt-5 grid gap-5 lg:grid-cols-[.72fr_1.28fr]">
         <article className="panel p-6 sm:p-8">
-          <div className="flex items-center gap-3"><Flame className="text-accent" /><div><p className="font-display text-[10px] uppercase tracking-[0.17em] text-muted">Continuidad</p><h2 className="font-display text-xl font-semibold uppercase">Rachas</h2></div></div>
-          <div className="mt-6 space-y-4"><Streak label="Diaria" current={dailyStreak?.current_count ?? 0} best={dailyStreak?.best_count ?? 0} milestones={[3,7,14,30,60,90]} /><Streak label="Semanal" current={weeklyStreak?.current_count ?? 0} best={weeklyStreak?.best_count ?? 0} milestones={[2,4,8,12,24,52]} /></div>
-          <p className="mt-5 text-xs leading-5 text-muted">Las rachas se verifican durante el cierre semanal; sus recompensas se aplican una sola vez por hito.</p>
+          <div className="flex items-center gap-3"><Flame className="text-accent" /><div><p className="font-display text-[10px] uppercase tracking-[0.17em] text-muted">Constancia</p><h2 className="font-display text-xl font-semibold uppercase">Rachas activas</h2></div></div>
+          <div className="mt-6 space-y-4"><Streak label="Diaria" current={dailyStreak?.current_count ?? 0} best={dailyStreak?.best_count ?? 0} milestones={[3,7,14,30,60,90]} /><Streak label="De ciclos" current={weeklyStreak?.current_count ?? 0} best={weeklyStreak?.best_count ?? 0} milestones={[2,4,8,12,24,52]} /></div>
+          <p className="mt-5 text-xs leading-5 text-muted">Los hitos se validan al resolver el ciclo.</p>
         </article>
 
         <article className="panel p-6 sm:p-8">
-          <div className="flex items-center justify-between"><div><p className="font-display text-[10px] uppercase tracking-[0.17em] text-muted">Ciclos verificados</p><h2 className="mt-1 font-display text-xl font-semibold uppercase">Semanas consolidadas</h2></div><Trophy className="text-cyan" /></div>
-          <div className="mt-5 space-y-3">{((summaries ?? []) as Summary[]).map((summary) => <Link key={summary.id} href={`/app/reports/${summary.weekly_cycle_id}`} className="flex items-center gap-4 rounded-xl border border-line/70 bg-black/10 p-4 hover:border-cyan/35"><span className={`font-display text-3xl font-bold ${rankColor(summary.rank)}`}>{summary.rank}</span><div className="min-w-0 flex-1"><p className="text-sm font-medium">{formatSummaryDate(summary.created_at)}</p><p className="mt-1 text-xs text-muted">{summary.consolidated_xp} XP consolidada · nivel {summary.previous_level} → {summary.resulting_level}</p></div><ArrowRight className="shrink-0 text-muted" size={16} /></Link>)}</div>
-          {!summaries?.length && <div className="mt-6 rounded-xl border border-dashed border-line p-7 text-center text-sm text-muted">Tu primera semana aparecerá aquí después del cierre automático.</div>}
+          <div className="flex items-center justify-between"><div><p className="font-display text-[10px] uppercase tracking-[0.17em] text-muted">Ciclos sellados</p><h2 className="mt-1 font-display text-xl font-semibold uppercase">Historial de ciclos</h2></div><Trophy className="text-cyan" /></div>
+          <div className="mt-5 space-y-3">{((summaries ?? []) as Summary[]).map((summary) => <Link key={summary.id} href={`/app/reports/${summary.weekly_cycle_id}`} className="flex items-center gap-4 rounded-xl border border-line/70 bg-black/10 p-4 hover:border-cyan/35"><span className={`font-display text-3xl font-bold ${rankColor(summary.rank)}`}>{summary.rank}</span><div className="min-w-0 flex-1"><p className="text-sm font-medium">{formatSummaryDate(summary.created_at)}</p><p className="mt-1 text-xs text-muted">{summary.consolidated_xp} XP asegurada · nivel {summary.previous_level} → {summary.resulting_level}</p></div><ArrowRight className="shrink-0 text-muted" size={16} /></Link>)}</div>
+          {!summaries?.length && <div className="mt-6 rounded-xl border border-dashed border-line p-7 text-center text-sm text-muted">Tu primer resultado aparecerá cuando termine el ciclo actual.</div>}
         </article>
       </section>
 
       <section className="panel mt-5 p-6 sm:p-8">
-        <div className="flex items-center gap-3"><Scale className="text-cyan" size={20} /><div><h2 className="font-display text-lg font-semibold uppercase">Evolución de peso</h2><p className="text-xs text-muted">Referencia privada · no afecta XP ni nivel</p></div></div>
+        <div className="flex items-center gap-3"><Scale className="text-cyan" size={20} /><div><h2 className="font-display text-lg font-semibold uppercase">Evolución de peso</h2><p className="text-xs text-muted">Seguimiento privado</p></div></div>
         {weights && weights.length >= 2 ? <WeightTrend weights={weights.map((entry) => ({ date: entry.measured_on, value: imperial ? Number(entry.weight_kg) * 2.2046226218 : Number(entry.weight_kg) }))} unit={imperial ? "lb" : "kg"} /> : <div className="mt-8 rounded-2xl border border-dashed border-line p-8 text-center text-sm leading-6 text-muted">Se necesitan al menos dos mediciones para mostrar una tendencia.</div>}
       </section>
     </div>
@@ -85,7 +85,7 @@ function AttributeCard({ attribute, pending }: { attribute: Attribute; pending: 
   return <article className="rounded-xl border border-line bg-black/10 p-4"><div className="flex items-center justify-between"><span className={meta.color}>{meta.icon}</span><span className="font-display text-xs text-muted">Nv. {projected.level}</span></div><p className="mt-4 text-sm font-medium">{meta.label}</p><div className="relative mt-3 h-1.5 overflow-hidden rounded-full bg-[#17152d]"><div className="absolute inset-y-0 left-0 rounded-full bg-cyan/60" style={{ width: `${projectedPercent}%` }} /><div className="absolute inset-y-0 left-0 rounded-full bg-accent" style={{ width: `${base}%` }} /></div><p className="mt-2 text-[10px] text-muted">{projected.xp}/{projected.required} XP{pending > 0 && <span className="text-cyan"> · +{pending}</span>}</p></article>;
 }
 
-function Streak({ label, current, best, milestones }: { label: string; current: number; best: number; milestones: number[] }) { const next = milestones.find((value) => value > current); return <div className="rounded-xl border border-line bg-black/10 p-4"><div className="flex items-end justify-between"><div><p className="text-xs text-muted">Racha {label.toLowerCase()}</p><p className="mt-1 text-3xl font-semibold">{current}</p></div><p className="text-right text-xs text-muted">Mejor: {best}<br />{next ? `Próximo hito: ${next}` : "Todos los hitos base alcanzados"}</p></div></div>; }
+function Streak({ label, current, best, milestones }: { label: string; current: number; best: number; milestones: number[] }) { const next = milestones.find((value) => value > current); return <div className="rounded-xl border border-line bg-black/10 p-4"><div className="flex items-end justify-between"><div><p className="text-xs text-muted">Racha {label.toLowerCase()}</p><p className="mt-1 text-3xl font-semibold">{current}</p></div><p className="text-right text-xs text-muted">Récord: {best}<br />{next ? `Siguiente hito: ${next}` : "Todos los hitos han sido superados"}</p></div></div>; }
 
 function projectAttribute(attribute: Attribute, pending: number) { let level = attribute.level; let xp = attribute.current_level_xp + pending; let required = attribute.xp_required_for_next_level; while (xp >= required) { xp -= required; level += 1; required = 150 + 25 * (level - 1); } return { level, xp, required }; }
 function attributeMeta(value: string) { const map = { strength: { label: "Fuerza", icon: <Swords size={20} />, color: "text-[#ff5f9e]" }, endurance: { label: "Resistencia", icon: <Flame size={20} />, color: "text-[#ff9f43]" }, vitality: { label: "Vitalidad", icon: <HeartPulse size={20} />, color: "text-cyan" }, intelligence: { label: "Inteligencia", icon: <Brain size={20} />, color: "text-accent-strong" }, discipline: { label: "Disciplina", icon: <ShieldCheck size={20} />, color: "text-[#ffe66d]" } } as const; return map[value as keyof typeof map] ?? { label: value, icon: <Zap size={20} />, color: "text-muted" }; }

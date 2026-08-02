@@ -9,8 +9,8 @@ export type ActivityActionState = { error?: string };
 
 function friendlyError(message: string) {
   if (message.includes("overlaps")) return "El horario se solapa con otro entrenamiento o sesión de enfoque.";
-  if (message.includes("not open")) return "La fecha seleccionada no pertenece a una semana abierta.";
-  if (message.includes("flexible meals")) return "Ya utilizaste las comidas flexibles disponibles esta semana.";
+  if (message.includes("not open")) return "La fecha pertenece a un ciclo que ya no admite cambios.";
+  if (message.includes("flexible meals")) return "Ya utilizaste las comidas flexibles disponibles en este ciclo.";
   if (message.includes("duplicate key") || message.includes("sleep_logs_one")) return "Ya existe un registro equivalente para esa fecha.";
   return "No pudimos guardar el registro. Revisa los datos e inténtalo nuevamente.";
 }
@@ -61,4 +61,3 @@ export async function deleteActivityAction(kind: ActivityKind, recordId: string,
 function zodUuid(value: string) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 }
-

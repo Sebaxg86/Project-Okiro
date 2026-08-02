@@ -15,12 +15,12 @@ export default async function VerifyEmailPage({
 
   return (
     <AuthShell
-      eyebrow="Verificación requerida"
+      eyebrow="Activación pendiente"
       title="Revisa tu correo"
-      description="Enviamos un vínculo para confirmar tu identidad y activar tu cuenta."
+      description="Confirma tu correo para completar el vínculo con Okiro."
       footer={
         <Link href="/login" className="font-semibold text-cyan hover:underline">
-          Volver al inicio de sesión
+          Volver al acceso
         </Link>
       }
     >
@@ -32,7 +32,7 @@ export default async function VerifyEmailPage({
           Abre el mensaje enviado{email ? <> a <strong className="text-foreground">{email}</strong></> : null} y selecciona el botón de confirmación.
         </p>
         <p className="mt-4 text-xs leading-5 text-muted/75">
-          Si no aparece, revisa spam. Por seguridad, no podrás entrar al dashboard hasta confirmar el correo.
+          Si no encuentras el mensaje, revisa spam. El acceso permanecerá bloqueado hasta confirmar tu correo.
         </p>
       </div>
     </AuthShell>

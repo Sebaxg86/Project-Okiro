@@ -20,11 +20,9 @@ export default async function ProtectedAppLayout({ children }: { children: React
 
   return (
     <AppShell
-      displayName={profile.display_name || user.email?.split("@")[0] || "Usuario"}
-      email={user.email ?? ""}
+      displayName={profile.display_name || user.email?.split("@")[0] || "Cuenta Okiro"}
     >
       {children}
     </AppShell>
   );
 }
-

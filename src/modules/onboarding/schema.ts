@@ -17,10 +17,10 @@ export const onboardingSchema = z
     flexibleMealsPerWeek: z.coerce.number().int().min(0).max(21),
   })
   .refine((data) => data.sleepMaxHours >= data.sleepMinHours, {
-    message: "El máximo de sueño no puede ser menor que el mínimo.",
+    message: "El descanso máximo debe ser mayor o igual que el mínimo.",
     path: ["sleepMaxHours"],
   })
   .refine((data) => data.intelligenceActivityType !== "custom" || data.intelligenceCustomLabel.length >= 2, {
-    message: "Escribe el nombre de tu actividad de inteligencia.",
+    message: "Escribe el nombre de tu disciplina mental.",
     path: ["intelligenceCustomLabel"],
   });

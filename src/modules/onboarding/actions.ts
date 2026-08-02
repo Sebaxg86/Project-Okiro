@@ -51,7 +51,7 @@ export async function completeOnboardingAction(
     p_flexible_meals_per_week: values.flexibleMealsPerWeek,
   });
 
-  if (error) return { error: "No pudimos guardar tus objetivos. Inténtalo nuevamente." };
+  if (error) return { error: "No fue posible activar tus parámetros. Inténtalo nuevamente." };
 
   revalidatePath("/app", "layout");
   redirect("/app");

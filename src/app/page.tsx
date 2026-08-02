@@ -14,9 +14,9 @@ import {
 } from "lucide-react";
 
 const pillars = [
-  { icon: Dumbbell, label: "Ejercicio", color: "#8b5cff" },
-  { icon: BedDouble, label: "Sueño", color: "#6576ff" },
-  { icon: Apple, label: "Alimentación", color: "#ff4fa3" },
+  { icon: Dumbbell, label: "Entrenamiento", color: "#8b5cff" },
+  { icon: BedDouble, label: "Descanso", color: "#6576ff" },
+  { icon: Apple, label: "Nutrición", color: "#ff4fa3" },
   { icon: Droplets, label: "Hidratación", color: "#00e5ff" },
   { icon: Code2, label: "Enfoque", color: "#c77dff" },
 ];
@@ -54,28 +54,28 @@ export default function HomePage() {
         <div className="relative z-10">
           <div className="inline-flex items-center gap-2 border border-cyan/25 bg-cyan/[0.055] px-3 py-2 font-display text-[9px] font-medium uppercase tracking-[0.22em] text-cyan [clip-path:polygon(0_6px,6px_0,100%_0,100%_calc(100%-6px),calc(100%-6px)_100%,0_100%)]">
             <span className="size-1.5 rounded-full bg-cyan shadow-[0_0_9px_#00e5ff]" />
-            Sistema activo · Protocolo de ascenso
+            El Sistema te ha encontrado
           </div>
 
           <h1 className="mt-7 max-w-3xl font-display text-5xl font-semibold uppercase leading-[.98] tracking-[-0.06em] sm:text-6xl lg:text-7xl xl:text-[84px]">
-            Convierte tu vida en
-            <span className="mt-2 block text-transparent [-webkit-text-stroke:1.5px_#8b5cff]">progreso medible.</span>
+            Tu ascenso comienza
+            <span className="mt-2 block text-transparent [-webkit-text-stroke:1.5px_#8b5cff]">en el mundo real.</span>
           </h1>
           <p className="mt-7 max-w-xl text-lg leading-8 text-muted sm:text-xl">
-            Okiro transforma tus hábitos reales en niveles, atributos, rangos y misiones. Sin castigos destructivos. Sin progreso falso.
+            Entrena. Descansa. Aprende. Cumple misiones. Okiro convierte tus acciones reales en niveles, atributos y rangos.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link href="/register" className="flex h-13 items-center justify-center gap-2 bg-accent px-6 font-display text-xs font-semibold uppercase tracking-[0.12em] text-white shadow-[0_0_34px_rgba(139,92,255,.3)] transition hover:bg-accent-strong [clip-path:polygon(0_10px,10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%)]">
-              Iniciar mi progreso <ArrowRight size={17} />
+              Comenzar mi ascenso <ArrowRight size={17} />
             </Link>
             <Link href="/login" className="flex h-13 items-center justify-center gap-2 border border-line bg-surface/70 px-6 font-display text-xs font-medium uppercase tracking-[0.12em] text-muted transition hover:border-cyan/50 hover:text-cyan [clip-path:polygon(0_10px,10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%)]">
-              Ya tengo una cuenta
+              Continuar mi ascenso
             </Link>
           </div>
 
           <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted">
-            {["Nivel permanente", "Datos privados", "Progreso equilibrado"].map((item) => (
+            {["Tu nivel permanece", "Progreso protegido", "Ascenso equilibrado"].map((item) => (
               <span key={item} className="flex items-center gap-2"><Check size={14} className="text-cyan" />{item}</span>
             ))}
           </div>
@@ -85,10 +85,10 @@ export default function HomePage() {
           <div className="system-frame panel p-5 sm:p-7">
             <div className="flex items-center justify-between border-b border-line/70 pb-4">
               <div>
-                <p className="font-display text-[9px] uppercase tracking-[0.2em] text-cyan">Interfaz de estado</p>
-                <p className="mt-1 font-display text-sm font-semibold uppercase tracking-[0.08em]">Ciclo semanal 31</p>
+                <p className="font-display text-[9px] uppercase tracking-[0.2em] text-cyan">Estado del cazador</p>
+                <p className="mt-1 font-display text-sm font-semibold uppercase tracking-[0.08em]">Ciclo 31</p>
               </div>
-              <span className="border border-accent/30 bg-accent/10 px-2.5 py-1 font-display text-[9px] uppercase tracking-[0.12em] text-accent">En progreso</span>
+              <span className="border border-accent/30 bg-accent/10 px-2.5 py-1 font-display text-[9px] uppercase tracking-[0.12em] text-accent">Activo</span>
             </div>
 
             <div className="grid gap-5 py-6 sm:grid-cols-[150px_1fr] sm:items-center">
@@ -104,7 +104,7 @@ export default function HomePage() {
               <div>
                 <div className="flex items-end justify-between">
                   <div>
-                    <p className="font-display text-[9px] uppercase tracking-[0.16em] text-muted">Rango semanal</p>
+                    <p className="font-display text-[9px] uppercase tracking-[0.16em] text-muted">Rango del ciclo</p>
                     <p className="mt-1 font-display text-4xl font-semibold text-cyan">B</p>
                   </div>
                   <div className="text-right">
@@ -114,7 +114,7 @@ export default function HomePage() {
                 </div>
                 <div className="mt-5 h-px bg-line" />
                 <div className="mt-4 flex items-center justify-between text-sm">
-                  <span className="text-muted">Objetivo semanal</span>
+                  <span className="text-muted">Meta del ciclo</span>
                   <span className="font-display text-xs text-accent">720 / 1,000 XP</span>
                 </div>
                 <div className="mt-2 h-1.5 bg-[#17152d]"><div className="h-full w-[72%] bg-gradient-to-r from-accent to-cyan shadow-[0_0_10px_rgba(0,229,255,.4)]" /></div>
@@ -133,7 +133,7 @@ export default function HomePage() {
 
           <div className="absolute -bottom-5 -left-4 flex items-center gap-3 border border-cyan/25 bg-[#070712]/95 px-4 py-3 shadow-[0_0_28px_rgba(0,229,255,.1)] [clip-path:polygon(0_8px,8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%)] sm:-left-9">
             <span className="grid size-8 place-items-center bg-cyan/10 text-cyan"><Zap size={17} /></span>
-            <div><p className="font-display text-[8px] uppercase tracking-[0.14em] text-muted">Misión completada</p><p className="mt-1 text-xs font-semibold">+40 XP provisional</p></div>
+            <div><p className="font-display text-[8px] uppercase tracking-[0.14em] text-muted">Misión completada</p><p className="mt-1 text-xs font-semibold">+40 XP pendiente</p></div>
           </div>
         </div>
       </section>
@@ -141,9 +141,9 @@ export default function HomePage() {
       <section className="border-y border-line/65 bg-surface/55">
         <div className="mx-auto grid max-w-[1320px] gap-px bg-line/60 sm:grid-cols-3">
           {[
-            { icon: Target, title: "Constancia sobre perfección", text: "Dos días difíciles no destruyen una buena semana." },
-            { icon: ShieldCheck, title: "Tu nivel no retrocede", text: "El progreso consolidado permanece protegido." },
-            { icon: Sparkles, title: "Equilibrio real", text: "Una sola actividad nunca domina todo el sistema." },
+            { icon: Target, title: "La constancia decide el resultado", text: "Un día difícil no define todo tu ciclo." },
+            { icon: ShieldCheck, title: "Tu ascenso permanece", text: "La experiencia asegurada nunca se pierde." },
+            { icon: Sparkles, title: "Ningún atributo basta por sí solo", text: "El Sistema evalúa tu progreso completo." },
           ].map(({ icon: Icon, title, text }) => (
             <article key={title} className="bg-background px-6 py-9 sm:px-8">
               <Icon size={20} className="text-accent" />

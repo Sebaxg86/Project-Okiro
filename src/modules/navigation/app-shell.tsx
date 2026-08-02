@@ -19,15 +19,15 @@ import { signOutAction } from "@/modules/auth/actions";
 import { RouteLoading } from "@/modules/navigation/route-loading";
 
 const navItems = [
-  { href: "/app", label: "Inicio", icon: Home },
-  { href: "/app/history", label: "Historial", icon: CalendarDays },
-  { href: "/app/progress", label: "Progreso", icon: BarChart3 },
-  { href: "/app/profile", label: "Perfil", icon: UserRound },
+  { href: "/app", label: "Estado", icon: Home },
+  { href: "/app/history", label: "Registro", icon: CalendarDays },
+  { href: "/app/progress", label: "Ascenso", icon: BarChart3 },
+  { href: "/app/profile", label: "Identidad", icon: UserRound },
 ];
 
 function BrandMark({ onNavigate }: { onNavigate?: (href: string) => void }) {
   return (
-    <Link href="/app" onClick={() => onNavigate?.("/app")} className="flex items-center gap-3 transition active:scale-95" aria-label="Ir al inicio de Okiro">
+    <Link href="/app" onClick={() => onNavigate?.("/app")} className="flex items-center gap-3 transition active:scale-95" aria-label="Ir al estado de Okiro">
       <span className="relative grid size-9 place-items-center rounded-[11px] border border-accent/35 bg-accent/10">
         <span className="size-3.5 rotate-45 rounded-[4px] border-2 border-accent" />
         <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-cyan shadow-[0_0_12px_#00e5ff]" />
@@ -60,11 +60,9 @@ function NavLink({ href, label, icon: Icon, onNavigate, pending }: (typeof navIt
 
 export function AppShell({
   displayName,
-  email,
   children,
 }: {
   displayName: string;
-  email: string;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -85,7 +83,7 @@ export function AppShell({
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[244px] border-r border-line/70 bg-[#05050e]/95 px-5 py-6 lg:flex lg:flex-col">
         <BrandMark onNavigate={beginNavigation} />
         <p className="mt-2 pl-12 font-display text-[9px] uppercase tracking-[0.22em] text-muted">
-          Sistema personal
+          Sistema Okiro
         </p>
 
         <nav className="mt-12 space-y-1" aria-label="Navegación principal">
@@ -98,15 +96,15 @@ export function AppShell({
         <div className="mt-auto rounded-2xl border border-line/80 bg-surface p-4">
           <div className="flex items-center gap-2 text-xs font-medium text-foreground">
             <ShieldCheck size={16} className="text-cyan" aria-hidden="true" />
-            Datos privados
+            Datos protegidos
           </div>
           <p className="mt-2 truncate text-sm font-medium">{displayName}</p>
-          <p className="truncate text-xs text-muted">{email}</p>
+          <p className="text-xs text-muted">Solo tú puedes consultar estos datos.</p>
         </div>
 
         <Link href="/app/profile" className="mt-3 flex h-11 items-center gap-3 rounded-xl px-3 text-sm text-muted hover:bg-white/[0.04] hover:text-foreground">
           <Settings size={18} aria-hidden="true" />
-          Configuración
+          Ajustes
         </Link>
         <form action={signOutAction}>
           <button type="submit" className="flex h-11 w-full items-center gap-3 rounded-xl px-3 text-sm text-muted hover:bg-warning/[0.06] hover:text-warning">
@@ -127,7 +125,7 @@ export function AppShell({
 
       <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line/80 bg-[#05050e]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur lg:hidden" aria-label="Navegación móvil">
         {navItems.slice(0, 2).map((item) => <MobileNavLink key={item.href} {...item} onNavigate={beginNavigation} pending={pendingHref === item.href} />)}
-        <Link href="/app/log" onClick={() => beginNavigation("/app/log")} className="mx-auto grid size-14 -translate-y-5 place-items-center rounded-[1.15rem] bg-accent text-white shadow-[0_0_28px_rgba(139,92,255,.42)] ring-4 ring-[#05050e] transition duration-150 active:scale-90" aria-label="Registrar actividad">
+        <Link href="/app/log" onClick={() => beginNavigation("/app/log")} className="mx-auto grid size-14 -translate-y-5 place-items-center rounded-[1.15rem] bg-accent text-white shadow-[0_0_28px_rgba(139,92,255,.42)] ring-4 ring-[#05050e] transition duration-150 active:scale-90" aria-label="Registrar acción">
           {pendingHref === "/app/log" ? <LoaderCircle size={24} className="animate-spin" /> : <Plus size={25} />}
         </Link>
         {navItems.slice(2).map((item) => <MobileNavLink key={item.href} {...item} onNavigate={beginNavigation} pending={pendingHref === item.href} />)}
@@ -149,5 +147,5 @@ function MobileNavLink({ href, label, icon: Icon, onNavigate, pending }: (typeof
 }
 
 function destinationLabel(href: string) {
-  return ({ "/app": "Inicio", "/app/history": "Historial", "/app/progress": "Progreso", "/app/profile": "Perfil", "/app/log": "Registro", "/app/missions": "Misiones" } as Record<string, string>)[href] ?? "la sección";
+  return ({ "/app": "Estado", "/app/history": "Registro", "/app/progress": "Ascenso", "/app/profile": "Identidad", "/app/log": "Registro", "/app/missions": "Misiones" } as Record<string, string>)[href] ?? "la sección";
 }

@@ -27,7 +27,7 @@ export async function loginAction(
   }
 
   if (!isSupabaseConfigured()) {
-    return { error: "La conexión segura todavía no está configurada." };
+    return { error: "El acceso todavía no está disponible." };
   }
 
   const supabase = await createClient();
@@ -64,7 +64,7 @@ export async function registerAction(
   }
 
   if (!isSupabaseConfigured()) {
-    return { error: "La conexión segura todavía no está configurada." };
+    return { error: "El acceso todavía no está disponible." };
   }
 
   const requestHeaders = await headers();

@@ -37,23 +37,23 @@ export function AuthShell({
 
           <div className="relative z-10 my-auto max-w-xl">
             <p className="font-display text-xs font-medium uppercase tracking-[0.28em] text-cyan">
-              Sistema de progresión personal
+              Sistema de ascenso personal
             </p>
             <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[1.04] tracking-[-0.055em] xl:text-6xl">
-              Cada decisión
+              Cada acción
               <span className="block text-transparent [-webkit-text-stroke:1px_#8b5cff]">
-                cambia tu nivel.
+                fortalece tu perfil.
               </span>
             </h2>
             <p className="mt-6 max-w-lg text-lg leading-8 text-muted">
-              Cinco pilares. Un solo progreso. Construye constancia sin convertir un mal día en una derrota permanente.
+              Cinco dominios. Un solo ascenso. Avanza con constancia. Un mal día no borra tu recorrido.
             </p>
 
             <div className="mt-10 grid max-w-lg grid-cols-3 gap-3">
               {[
-                { icon: Activity, label: "5 pilares", value: "Equilibrio" },
-                { icon: Zap, label: "XP semanal", value: "Progreso" },
-                { icon: ShieldCheck, label: "Nivel seguro", value: "Permanente" },
+                { icon: Activity, label: "5 dominios", value: "Sincronía" },
+                { icon: Zap, label: "XP del ciclo", value: "Ascenso" },
+                { icon: ShieldCheck, label: "Nivel protegido", value: "Asegurado" },
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} className="system-frame border border-line/80 bg-surface/80 p-4 [clip-path:polygon(0_9px,9px_0,100%_0,100%_calc(100%-9px),calc(100%-9px)_100%,0_100%)]">
                   <Icon size={17} className="text-cyan" aria-hidden="true" />
@@ -66,7 +66,7 @@ export function AuthShell({
 
           <div className="relative z-10 flex items-center gap-2 text-xs text-muted">
             <Sparkles size={14} className="text-accent" />
-            La constancia vale más que la perfección.
+            La constancia determina el ascenso.
           </div>
         </section>
 
@@ -83,7 +83,7 @@ export function AuthShell({
               <div className="mt-7 border-t border-line/65 pt-6 text-center text-sm text-muted">{footer}</div>
             </div>
             <p className="mt-6 text-center font-display text-[9px] uppercase tracking-[0.2em] text-muted/70">
-              Protocolo seguro · Sesión cifrada · Datos privados
+              Conexión segura · Datos protegidos
             </p>
           </div>
         </section>

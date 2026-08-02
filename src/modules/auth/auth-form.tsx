@@ -128,7 +128,7 @@ export function AuthForm({ mode, next }: { mode: "login" | "register"; next?: st
           <TextField
             name="fullName"
             label="Nombre completo"
-            placeholder="Tu nombre y apellidos"
+            placeholder="Nombre y apellidos"
             autoComplete="name"
             icon={UserRound}
             required
@@ -136,7 +136,7 @@ export function AuthForm({ mode, next }: { mode: "login" | "register"; next?: st
           <TextField
             name="displayName"
             label="Nombre preferido"
-            placeholder="Cómo quieres que te llamemos"
+            placeholder="Nombre que mostrará el Sistema"
             autoComplete="nickname"
             icon={UserRound}
             required
@@ -151,7 +151,7 @@ export function AuthForm({ mode, next }: { mode: "login" | "register"; next?: st
             />
             <TextField
               name="weightKg"
-              label="Peso inicial · kg · opcional"
+              label="Peso inicial · opcional"
               placeholder="72.5"
               autoComplete="off"
               icon={Scale}
@@ -162,7 +162,7 @@ export function AuthForm({ mode, next }: { mode: "login" | "register"; next?: st
             />
           </div>
           <p className="-mt-2 text-xs leading-5 text-muted">
-            Tu cumpleaños y peso son privados. El peso se guarda como el primer punto de tu historial y nunca genera ni resta XP.
+            Datos privados. El peso no modifica tu XP ni tu nivel.
           </p>
         </>
       )}
@@ -222,7 +222,7 @@ export function AuthForm({ mode, next }: { mode: "login" | "register"; next?: st
         className="flex h-12 w-full items-center justify-center gap-2 bg-accent px-5 font-display text-xs font-semibold uppercase tracking-[0.13em] text-white shadow-[0_0_28px_rgba(139,92,255,.28)] transition hover:bg-accent-strong disabled:cursor-wait disabled:opacity-60 [clip-path:polygon(0_9px,9px_0,100%_0,100%_calc(100%-9px),calc(100%-9px)_100%,0_100%)]"
       >
         {pending ? <LoaderCircle size={17} className="animate-spin" /> : <ShieldCheck size={17} />}
-        {pending ? "Procesando" : isRegister ? "Crear cuenta" : "Iniciar sesión"}
+        {pending ? "Sincronizando…" : isRegister ? "Crear cuenta" : "Iniciar sesión"}
       </button>
     </form>
   );

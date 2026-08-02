@@ -61,19 +61,19 @@ export default async function MissionsPage() {
     <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8 lg:px-10">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-display text-[10px] uppercase tracking-[0.22em] text-cyan">Objetivos adaptados a tus metas</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[-0.04em]">Misiones diarias</h1>
-          <p className="mt-2 text-sm text-muted">Se completan automáticamente con tus registros. Hasta cinco bonos de +8 XP por semana.</p>
+          <p className="font-display text-[10px] uppercase tracking-[0.22em] text-cyan">Misiones generadas por el Sistema</p>
+          <h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[-0.04em]">Misiones del ciclo</h1>
+          <p className="mt-2 text-sm text-muted">Registra tus acciones para completar misiones y obtener recompensas.</p>
         </div>
         <Link href="/app/log" className="flex h-11 items-center justify-center gap-2 rounded-xl bg-accent px-5 font-display text-xs font-semibold uppercase tracking-[0.1em] text-white">
-          Registrar actividad <ArrowRight size={16} />
+          Registrar acción <ArrowRight size={16} />
         </Link>
       </header>
 
       <section className="mt-8 grid gap-4 sm:grid-cols-3">
-        <Stat label="Misiones completas" value={`${live?.completed_missions ?? 0} / 5`} icon={<Flame size={20} />} />
-        <Stat label="XP provisional" value={`${(live?.provisional_xp ?? 0) > 0 ? "+" : ""}${live?.provisional_xp ?? 0}`} icon={<Target size={20} />} />
-        <Stat label="Rango en curso" value={live?.rank ?? "E"} icon={<ShieldCheck size={20} />} accent />
+        <Stat label="Completadas" value={`${live?.completed_missions ?? 0} / 5`} icon={<Flame size={20} />} />
+        <Stat label="XP obtenida" value={`${(live?.provisional_xp ?? 0) > 0 ? "+" : ""}${live?.provisional_xp ?? 0}`} icon={<Target size={20} />} />
+        <Stat label="Rango actual" value={live?.rank ?? "E"} icon={<ShieldCheck size={20} />} accent />
       </section>
 
       <section className="mt-5 grid gap-4 lg:grid-cols-2">
@@ -85,7 +85,7 @@ export default async function MissionsPage() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className={`font-display text-[10px] uppercase tracking-[0.17em] ${isToday ? "text-cyan" : "text-muted"}`}>
-                    {isToday ? "Jornada activa" : formatDay(mission.mission_date)}
+                    {isToday ? "Día activo" : formatDay(mission.mission_date)}
                   </p>
                   <h2 className="mt-2 font-display text-lg font-semibold uppercase">{formatDate(mission.mission_date)}</h2>
                 </div>
@@ -104,7 +104,7 @@ export default async function MissionsPage() {
                         </span>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center justify-between gap-3">
-                            <p className="truncate text-sm font-medium">{item.title}</p>
+                            <p className="truncate text-sm font-medium">{missionTitle(item.mission_type, item.title)}</p>
                             <span className="shrink-0 text-[10px] text-muted">{formatValue(item.current_value)} / {formatValue(item.target_value)} {item.unit}</span>
                           </div>
                           <div className="mt-2 h-1 overflow-hidden rounded-full bg-[#17152d]">
@@ -118,15 +118,15 @@ export default async function MissionsPage() {
               </div>
 
               <div className="mt-5 flex items-center justify-between border-t border-line/60 pt-4 text-xs">
-                <span className="text-muted">{mission.completed_required_items} de {mission.total_required_items} requisitos</span>
-                <span className={mission.bonus_earned ? "font-semibold text-cyan" : "text-muted"}>{mission.bonus_earned ? "+8 XP obtenida" : "Bono +8 XP"}</span>
+                <span className="text-muted">{mission.completed_required_items}/{mission.total_required_items} objetivos</span>
+                <span className={mission.bonus_earned ? "font-semibold text-cyan" : "text-muted"}>{mission.bonus_earned ? "Recompensa obtenida · +8 XP" : "Recompensa · +8 XP"}</span>
               </div>
             </article>
           );
         })}
       </section>
 
-      {!week.length && <div className="panel mt-5 p-10 text-center text-sm text-muted">El ciclo semanal se está preparando. Vuelve al inicio para actualizarlo con tu próximo registro.</div>}
+      {!week.length && <div className="panel mt-5 p-10 text-center"><p className="font-display text-sm font-semibold uppercase text-cyan">El Sistema está generando tus misiones</p><p className="mt-2 text-sm text-muted">Registra una acción para actualizar el ciclo.</p></div>}
     </div>
   );
 }
@@ -137,10 +137,11 @@ function Stat({ label, value, icon, accent = false }: { label: string; value: st
 
 function StatusBadge({ status, future }: { status: string; future: boolean }) {
   const complete = status === "completed";
-  const label = future ? "Próxima" : complete ? "Completa" : status === "in_progress" ? "En marcha" : "Pendiente";
+  const label = future ? "Bloqueada" : complete ? "Completada" : status === "in_progress" ? "En progreso" : "Sin iniciar";
   return <span className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.12em] ${complete ? "border-cyan/30 bg-cyan/[0.06] text-cyan" : "border-line text-muted"}`}>{label}</span>;
 }
 
 function formatDay(value: string) { return new Intl.DateTimeFormat("es-MX", { weekday: "long", timeZone: "UTC" }).format(new Date(`${value}T12:00:00Z`)); }
 function formatDate(value: string) { return new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "long", timeZone: "UTC" }).format(new Date(`${value}T12:00:00Z`)); }
 function formatValue(value: number) { return Number(value).toLocaleString("es-MX", { maximumFractionDigits: 1 }); }
+function missionTitle(type: string, fallback: string) { return ({ exercise: "Entrenamiento programado", sleep: "Descanso dentro del objetivo", nutrition: "Nutrición del día", hydration: "Hidratación al 90%" } as Record<string, string>)[type] ?? fallback; }

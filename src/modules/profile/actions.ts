@@ -35,7 +35,7 @@ export async function updateProfileAction(_state: ProfileActionState, formData: 
 
   if (error) return { error: "No pudimos actualizar tu perfil." };
   revalidatePath("/app", "layout");
-  return { success: "Perfil actualizado." };
+  return { success: "Identidad actualizada." };
 }
 
 export async function saveWeightAction(_state: ProfileActionState, formData: FormData): Promise<ProfileActionState> {
@@ -62,4 +62,3 @@ export async function saveWeightAction(_state: ProfileActionState, formData: For
   revalidatePath("/app/profile");
   return { success: "Medición guardada." };
 }
-

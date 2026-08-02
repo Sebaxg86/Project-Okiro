@@ -9,12 +9,12 @@ export const metadata = {
 export default function RegisterPage() {
   return (
     <AuthShell
-      eyebrow="Nuevo vínculo"
-      title="Inicia tu progreso"
-      description="Crea una cuenta privada. Tu nivel histórico quedará protegido desde el primer ciclo."
+      eyebrow="Vínculo inicial"
+      title="Activa tu sistema"
+      description="Crea tu cuenta y establece el punto de inicio de tu ascenso."
       footer={
         <>
-          ¿Ya tienes cuenta?{" "}
+          ¿El Sistema ya te reconoce?{" "}
           <Link href="/login" className="font-semibold text-cyan hover:underline">
             Iniciar sesión
           </Link>

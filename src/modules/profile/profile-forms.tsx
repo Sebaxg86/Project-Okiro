@@ -25,7 +25,7 @@ export function ProfileForm({ profile }: { profile: { full_name: string; display
         <label className="block"><span className="mb-2 block font-display text-[10px] uppercase tracking-[0.15em] text-muted">Unidades</span><select name="unitSystem" defaultValue={profile.unit_system} className={inputClass}><option value="metric">Métrico · kg, ml</option><option value="imperial">Imperial · lb, oz</option></select></label>
       </div>
       <Feedback state={state} />
-      <button type="submit" disabled={pending} className="flex h-11 items-center gap-2 rounded-xl bg-accent px-5 font-display text-xs font-semibold uppercase tracking-[0.1em] text-white disabled:opacity-60">{pending ? <LoaderCircle className="animate-spin" size={16} /> : <Save size={16} />}{pending ? "Guardando" : "Guardar perfil"}</button>
+      <button type="submit" disabled={pending} className="flex h-11 items-center gap-2 rounded-xl bg-accent px-5 font-display text-xs font-semibold uppercase tracking-[0.1em] text-white disabled:opacity-60">{pending ? <LoaderCircle className="animate-spin" size={16} /> : <Save size={16} />}{pending ? "Sincronizando…" : "Guardar identidad"}</button>
     </form>
   );
 }
@@ -42,7 +42,7 @@ export function WeightForm({ unitSystem, today }: { unitSystem: "metric" | "impe
       </div>
       <p className="text-xs leading-5 text-muted">Una medición en la misma fecha reemplaza la anterior. El peso es privado y no afecta tu XP.</p>
       <Feedback state={state} />
-      <button type="submit" disabled={pending} className="flex h-11 items-center gap-2 rounded-xl border border-cyan/40 bg-cyan/[0.08] px-5 font-display text-xs font-semibold uppercase tracking-[0.1em] text-cyan disabled:opacity-60">{pending ? <LoaderCircle className="animate-spin" size={16} /> : <Scale size={16} />}{pending ? "Guardando" : "Guardar medición"}</button>
+      <button type="submit" disabled={pending} className="flex h-11 items-center gap-2 rounded-xl border border-cyan/40 bg-cyan/[0.08] px-5 font-display text-xs font-semibold uppercase tracking-[0.1em] text-cyan disabled:opacity-60">{pending ? <LoaderCircle className="animate-spin" size={16} /> : <Scale size={16} />}{pending ? "Registrando medición…" : "Registrar medición"}</button>
     </form>
   );
 }

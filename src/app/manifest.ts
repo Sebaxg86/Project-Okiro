@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Okiro — Progreso en equilibrio",
+    name: "Okiro — Sistema de ascenso personal",
     short_name: "Okiro",
     description:
-      "Registra tus hábitos y conviértelos en progreso personal sostenible.",
+      "Registra acciones reales, fortalece tus atributos y asciende de nivel.",
     start_url: "/",
     display: "standalone",
     background_color: "#03030a",

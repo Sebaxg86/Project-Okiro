@@ -30,7 +30,7 @@ export default async function LogPage({ searchParams }: { searchParams: Promise<
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-8 sm:px-8 lg:px-10">
-      <header><p className="flex items-center gap-2 font-display text-[10px] uppercase tracking-[0.22em] text-cyan"><Sparkles size={14} /> Registro verificado</p><h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[-0.04em]">{params.id ? "Editar actividad" : "Registrar actividad"}</h1><p className="mt-2 text-sm text-muted">La XP se calcula en el servidor y respeta los límites diarios y semanales.</p></header>
+      <header><p className="flex items-center gap-2 font-display text-[10px] uppercase tracking-[0.22em] text-cyan"><Sparkles size={14} /> Registro del Sistema</p><h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[-0.04em]">{params.id ? "Modificar registro" : "Registrar acción"}</h1><p className="mt-2 text-sm text-muted">El Sistema evaluará esta acción al guardarla.</p></header>
       <section className="system-frame panel mt-8 p-6 sm:p-8"><ActivityForm kind={kind} initial={{ ...defaults, ...initial }} idempotencyKey={randomUUID()} intelligenceType={intelligenceGoal?.intelligence_activity_type ?? "programming"} intelligenceLabel={intelligenceGoal?.intelligence_activity_label ?? "Programación"} /></section>
     </div>
   );

@@ -20,11 +20,11 @@ export const metadata: Metadata = {
   ),
   applicationName: "Okiro",
   title: {
-    default: "Okiro — Tu progreso, en equilibrio",
+    default: "Okiro — Tu ascenso comienza aquí",
     template: "%s · Okiro",
   },
   description:
-    "Convierte tus hábitos de ejercicio, sueño, alimentación, hidratación y enfoque en progreso real.",
+    "Convierte entrenamiento, descanso, nutrición, hidratación y enfoque en niveles, atributos y rangos.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
@@ -36,23 +36,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_MX",
     siteName: "Okiro",
-    title: "Okiro — Tu progreso, en equilibrio",
+    title: "Okiro — Tu ascenso comienza aquí",
     description:
-      "Convierte hábitos reales en progreso personal sostenible.",
+      "Convierte acciones reales en niveles, atributos y rangos.",
     images: [
       {
         url: "/og-system.png",
         width: 1536,
         height: 1024,
-        alt: "Okiro — Tu progreso, en equilibrio",
+        alt: "Okiro — Tu ascenso comienza aquí",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Okiro — Tu progreso, en equilibrio",
+    title: "Okiro — Tu ascenso comienza aquí",
     description:
-      "Convierte hábitos reales en progreso personal sostenible.",
+      "Convierte acciones reales en niveles, atributos y rangos.",
     images: ["/og-system.png"],
   },
 };

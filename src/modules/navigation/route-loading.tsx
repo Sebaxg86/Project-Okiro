@@ -6,7 +6,7 @@ export function RouteLoading({ destination = "tu panel" }: { destination?: strin
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center gap-3 text-cyan">
           <LoaderCircle className="animate-spin" size={18} />
-          <p className="font-display text-[10px] uppercase tracking-[0.2em]">Abriendo {destination}</p>
+          <p className="font-display text-[10px] uppercase tracking-[0.2em]">Cargando {destination}…</p>
         </div>
         <div className="mt-5 h-9 w-48 animate-pulse rounded-lg bg-white/[0.07]" />
         <div className="mt-8 grid gap-5 lg:grid-cols-[1.35fr_.65fr]">

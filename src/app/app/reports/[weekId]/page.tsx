@@ -19,9 +19,9 @@ export default async function WeeklyReportPage({ params }: { params: Promise<{ w
   const intelligenceLabel = goal?.intelligence_activity_label ?? "Programación";
 
   const scores = [
-    ["Ejercicio", summary.exercise_score],
-    ["Sueño", summary.sleep_score],
-    ["Alimentación", summary.nutrition_score],
+    ["Entrenamiento", summary.exercise_score],
+    ["Descanso", summary.sleep_score],
+    ["Nutrición", summary.nutrition_score],
     ["Hidratación", summary.hydration_score],
     [intelligenceLabel, summary.programming_score],
   ] as Array<[string, number]>;
@@ -29,32 +29,32 @@ export default async function WeeklyReportPage({ params }: { params: Promise<{ w
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-8 sm:px-8 lg:px-10">
-      <Link href="/app/progress" className="inline-flex items-center gap-2 text-sm text-muted hover:text-cyan"><ArrowLeft size={16} /> Volver a Progreso</Link>
+      <Link href="/app/progress" className="inline-flex items-center gap-2 text-sm text-muted hover:text-cyan"><ArrowLeft size={16} /> Volver a Ascenso</Link>
       <header className="system-frame panel mt-6 overflow-hidden p-7 sm:p-10">
         <div className="grid items-center gap-8 sm:grid-cols-[1fr_auto]">
           <div>
-            <p className="font-display text-[10px] uppercase tracking-[0.22em] text-cyan">Informe consolidado</p>
+            <p className="font-display text-[10px] uppercase tracking-[0.22em] text-cyan">Resultado del ciclo</p>
             <h1 className="mt-3 font-display text-3xl font-semibold uppercase tracking-[-0.04em]">{formatDate(cycle.week_start)} — {formatDate(cycle.week_end)}</h1>
-            <p className="mt-3 text-sm text-muted">Cierre verificado · versión {summary.calculation_version}</p>
-            <div className="mt-7 flex flex-wrap gap-3"><Pill icon={<Zap size={14} />} text={`${summary.consolidated_xp} XP consolidada`} /><Pill icon={<BarChart3 size={14} />} text={`${Number(summary.rank_score).toFixed(1)} puntos`} /><Pill icon={<ShieldCheck size={14} />} text={`${Number(summary.data_coverage).toFixed(0)}% cobertura`} /></div>
+            <p className="mt-3 text-sm text-muted">Ciclo sellado</p>
+            <div className="mt-7 flex flex-wrap gap-3"><Pill icon={<Zap size={14} />} text={`${summary.consolidated_xp} XP asegurada`} /><Pill icon={<BarChart3 size={14} />} text={`${Number(summary.rank_score).toFixed(1)} pts.`} /><Pill icon={<ShieldCheck size={14} />} text={`${Number(summary.data_coverage).toFixed(0)}% sincronía`} /></div>
           </div>
-          <div className="text-center"><Trophy className={`mx-auto ${rankColor(summary.rank)}`} /><p className={`mt-2 font-display text-8xl font-bold ${rankColor(summary.rank)}`}>{summary.rank}</p><p className="font-display text-[9px] uppercase tracking-[0.16em] text-muted">Rango final</p></div>
+          <div className="text-center"><Trophy className={`mx-auto ${rankColor(summary.rank)}`} /><p className={`mt-2 font-display text-8xl font-bold ${rankColor(summary.rank)}`}>{summary.rank}</p><p className="font-display text-[9px] uppercase tracking-[0.16em] text-muted">Rango obtenido</p></div>
         </div>
       </header>
 
       <section className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Metric label="XP positiva" value={`+${summary.positive_xp}`} />
-        <Metric label="Bonificaciones" value={`+${summary.bonus_xp}`} />
-        <Metric label="Penalización aplicada" value={`-${summary.applied_penalty_xp}`} warning />
-        <Metric label="Nivel" value={`${summary.previous_level} → ${summary.resulting_level}`} />
+        <Metric label="XP obtenida" value={`+${summary.positive_xp}`} />
+        <Metric label="Recompensas" value={`+${summary.bonus_xp}`} />
+        <Metric label="XP perdida" value={`-${summary.applied_penalty_xp}`} warning />
+        <Metric label="Nivel resultante" value={`${summary.previous_level} → ${summary.resulting_level}`} />
       </section>
 
       <section className="mt-5 grid gap-5 lg:grid-cols-2">
-        <article className="panel p-6 sm:p-8"><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Rendimiento por pilar</p><div className="mt-6 space-y-4">{scores.map(([label, score]) => <div key={label}><div className="flex justify-between text-sm"><span>{label}</span><span className="text-muted">{Number(score).toFixed(0)} / 100</span></div><div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#17152d]"><div className="h-full rounded-full bg-gradient-to-r from-accent to-cyan" style={{ width: `${Math.min(100, Number(score))}%` }} /></div></div>)}</div></article>
-        <article className="panel p-6 sm:p-8"><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Balance de XP</p><div className="mt-5 grid grid-cols-2 gap-3">{categoryTotals.map((item) => <div key={item.category} className="rounded-xl border border-line bg-black/10 p-4"><p className="text-xs text-muted">{categoryLabel(item.category, intelligenceLabel)}</p><p className={`mt-2 text-xl font-semibold ${item.value < 0 ? "text-warning" : "text-cyan"}`}>{item.value > 0 ? "+" : ""}{item.value}</p></div>)}</div></article>
+        <article className="panel p-6 sm:p-8"><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Resultado por dominio</p><div className="mt-6 space-y-4">{scores.map(([label, score]) => <div key={label}><div className="flex justify-between text-sm"><span>{label}</span><span className="text-muted">{Number(score).toFixed(0)}%</span></div><div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#17152d]"><div className="h-full rounded-full bg-gradient-to-r from-accent to-cyan" style={{ width: `${Math.min(100, Number(score))}%` }} /></div></div>)}</div></article>
+        <article className="panel p-6 sm:p-8"><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Resultado de experiencia</p><div className="mt-5 grid grid-cols-2 gap-3">{categoryTotals.map((item) => <div key={item.category} className="rounded-xl border border-line bg-black/10 p-4"><p className="text-xs text-muted">{categoryLabel(item.category, intelligenceLabel)}</p><p className={`mt-2 text-xl font-semibold ${item.value < 0 ? "text-warning" : "text-cyan"}`}>{item.value > 0 ? "+" : ""}{item.value}</p></div>)}</div></article>
       </section>
 
-      <section className="panel mt-5 p-6 sm:p-8"><div className="flex items-center justify-between"><div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Auditoría</p><h2 className="mt-1 font-display text-xl font-semibold uppercase">Movimientos consolidados</h2></div><ShieldCheck className="text-cyan" /></div><div className="mt-5 divide-y divide-line/60">{(transactions ?? []).map((item) => <div key={item.id} className="flex items-center gap-4 py-3 text-sm"><div className="min-w-0 flex-1"><p>{categoryLabel(item.category, intelligenceLabel)} · {ruleLabel(item.rule_code)}</p><p className="mt-1 text-xs text-muted">{new Intl.DateTimeFormat("es-MX", { dateStyle: "medium", timeStyle: "short" }).format(new Date(item.occurred_at))}</p></div><span className={`font-semibold ${item.amount < 0 ? "text-warning" : "text-cyan"}`}>{item.amount > 0 ? "+" : ""}{item.amount} XP</span></div>)}</div>{!transactions?.length && <p className="mt-5 text-sm text-muted">No hay movimientos visibles para este cierre.</p>}</section>
+      <section className="panel mt-5 p-6 sm:p-8"><div className="flex items-center justify-between"><div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-cyan">Registro del Sistema</p><h2 className="mt-1 font-display text-xl font-semibold uppercase">Eventos del ciclo</h2></div><ShieldCheck className="text-cyan" /></div><div className="mt-5 divide-y divide-line/60">{(transactions ?? []).map((item) => <div key={item.id} className="flex items-center gap-4 py-3 text-sm"><div className="min-w-0 flex-1"><p>{categoryLabel(item.category, intelligenceLabel)} · {ruleLabel(item.rule_code)}</p><p className="mt-1 text-xs text-muted">{new Intl.DateTimeFormat("es-MX", { dateStyle: "medium", timeStyle: "short" }).format(new Date(item.occurred_at))}</p></div><span className={`font-semibold ${item.amount < 0 ? "text-warning" : "text-cyan"}`}>{item.amount > 0 ? "+" : ""}{item.amount} XP</span></div>)}</div>{!transactions?.length && <p className="mt-5 text-sm text-muted">No se registraron eventos de XP en este ciclo.</p>}</section>
     </div>
   );
 }
@@ -62,6 +62,6 @@ export default async function WeeklyReportPage({ params }: { params: Promise<{ w
 function Pill({ icon, text }: { icon: React.ReactNode; text: string }) { return <span className="inline-flex items-center gap-2 rounded-full border border-line bg-black/10 px-3 py-2 text-xs text-muted">{icon}{text}</span>; }
 function Metric({ label, value, warning = false }: { label: string; value: string; warning?: boolean }) { return <article className="panel p-5"><p className="font-display text-[9px] uppercase tracking-[0.16em] text-muted">{label}</p><p className={`mt-3 text-2xl font-semibold ${warning ? "text-warning" : ""}`}>{value}</p></article>; }
 function rankColor(rank: string) { return ({ S: "text-[#ffe66d] drop-shadow-[0_0_14px_rgba(255,230,109,.45)]", A: "text-[#c77dff]", B: "text-cyan", C: "text-[#65d890]", D: "text-[#ff9f43]", E: "text-warning" } as Record<string, string>)[rank] ?? "text-muted"; }
-function categoryLabel(category: string, intelligenceLabel = "Programación") { return ({ exercise: "Ejercicio", sleep: "Sueño", nutrition: "Alimentación", hydration: "Hidratación", focus: intelligenceLabel, mission: "Misiones", streak: "Rachas" } as Record<string, string>)[category] ?? category; }
-function ruleLabel(rule: string) { return rule.replaceAll("_", " "); }
+function categoryLabel(category: string, intelligenceLabel = "Programación") { return ({ exercise: "Entrenamiento", sleep: "Descanso", nutrition: "Nutrición", hydration: "Hidratación", focus: intelligenceLabel, mission: "Misiones", streak: "Rachas" } as Record<string, string>)[category] ?? "Progreso"; }
+function ruleLabel(rule: string) { return ({ exercise_duration_v1: "Sesión completada", sleep_duration_consistency_v1: "Descanso registrado", nutrition_classification_v1: "Nutrición registrada", hydration_daily_percentage_v1: "Meta diaria de hidratación", focus_daily_duration_v1: "Disciplina mental registrada", daily_mission_complete_v1: "Misión diaria completada", exercise_goal_bonus_v1: "Meta de entrenamiento", exercise_goal_penalty_v1: "Ajuste de entrenamiento", sleep_consistency_bonus_v1: "Constancia de descanso", focus_consistency_bonus_v1: "Constancia de disciplina mental", focus_zero_penalty_v1: "Ajuste de disciplina mental", balanced_week_bonus_v1: "Equilibrio del ciclo", daily_streak_milestone_v1: "Hito de racha diaria", weekly_streak_milestone_v1: "Hito de ciclos" } as Record<string, string>)[rule] ?? "Evento de experiencia"; }
 function formatDate(value: string) { return new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(`${value}T12:00:00Z`)); }

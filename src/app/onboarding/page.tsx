@@ -24,12 +24,12 @@ export default async function OnboardingPage() {
       <div className="mx-auto max-w-3xl">
         <Link href="/" className="font-display text-sm font-semibold tracking-[0.18em] text-foreground">OKIRO</Link>
         <div className="system-frame panel mt-8 p-6 sm:p-10">
-          <p className="flex items-center gap-2 font-display text-[10px] uppercase tracking-[0.24em] text-cyan"><Sparkles size={14} /> Configuración inicial</p>
+          <p className="flex items-center gap-2 font-display text-[10px] uppercase tracking-[0.24em] text-cyan"><Sparkles size={14} /> Calibración del Sistema</p>
           <h1 className="mt-3 font-display text-3xl font-semibold uppercase tracking-[-0.04em] sm:text-4xl">
-            Bienvenido{profile?.display_name ? `, ${profile.display_name}` : ""}
+            El Sistema te reconoce{profile?.display_name ? `, ${profile.display_name}` : ""}
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-            Okiro transforma registros cotidianos en una representación de progreso. No sustituye asesoría médica y nunca premia cambios de peso.
+            Define tus parámetros iniciales. Los ciclos completados conservarán siempre las reglas con las que fueron evaluados.
           </p>
           <div className="my-8 h-px bg-gradient-to-r from-accent/70 via-cyan/40 to-transparent" />
           <OnboardingForm initialTimezone={profile?.timezone ?? "UTC"} />
@@ -38,4 +38,3 @@ export default async function OnboardingPage() {
     </main>
   );
 }
-

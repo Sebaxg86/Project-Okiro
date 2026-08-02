@@ -15,12 +15,12 @@ export default async function LoginPage({
 
   return (
     <AuthShell
-      eyebrow="Acceso autorizado"
+      eyebrow="Acceso al Sistema"
       title="Continúa tu ascenso"
-      description="Ingresa a tu sistema personal y retoma el progreso de esta semana."
+      description="Tu ciclo sigue activo. Inicia sesión para continuar."
       footer={
         <>
-          ¿Aún no tienes cuenta?{" "}
+          ¿Todavía no has iniciado tu ascenso?{" "}
           <Link href="/register" className="font-semibold text-cyan hover:underline">
             Crear cuenta
           </Link>
@@ -29,7 +29,7 @@ export default async function LoginPage({
     >
       {params.status === "configuration" && (
         <div className="mb-5 border border-warning/25 bg-warning/[0.06] px-4 py-3 text-sm text-[#ff9acb]">
-          La conexión con Supabase debe configurarse antes de iniciar sesión.
+          El acceso todavía no está disponible.
         </div>
       )}
       {params.status === "session-expired" && (

@@ -10,11 +10,10 @@ export function ActivityActions({ kind, id, idempotencyKey }: { kind: ActivityKi
   return (
     <div className="flex items-center gap-1">
       <Link href={`/app/log?type=${kind}&id=${id}`} className="grid size-9 place-items-center rounded-xl text-muted hover:bg-white/[0.04] hover:text-cyan" aria-label="Editar registro"><Pencil size={15} /></Link>
-      <form action={deleteAction} onSubmit={(event) => { if (!window.confirm("¿Eliminar este registro y recalcular su XP?")) event.preventDefault(); }}>
+      <form action={deleteAction} onSubmit={(event) => { if (!window.confirm("¿Eliminar este registro? El balance de XP se actualizará automáticamente.")) event.preventDefault(); }}>
         <input type="hidden" name="idempotencyKey" value={idempotencyKey} />
         <button type="submit" className="grid size-9 place-items-center rounded-xl text-muted hover:bg-warning/[0.07] hover:text-warning" aria-label="Eliminar registro"><Trash2 size={15} /></button>
       </form>
     </div>
   );
 }
-

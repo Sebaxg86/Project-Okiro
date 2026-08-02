@@ -1,6 +1,7 @@
-import { CalendarDays, LockKeyhole, Scale, UserRound } from "lucide-react";
+import { CalendarDays, LockKeyhole, LogOut, Scale, UserRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ProfileForm, WeightForm } from "@/modules/profile/profile-forms";
+import { signOutAction } from "@/modules/auth/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -35,10 +36,19 @@ export default async function ProfilePage() {
       </section>
 
       <div className="mt-5 flex items-start gap-3 rounded-xl border border-line bg-surface/70 p-4 text-xs leading-5 text-muted"><LockKeyhole size={16} className="mt-0.5 shrink-0 text-cyan" /> Estos datos solo pueden ser consultados y modificados por tu cuenta mediante políticas RLS.</div>
+
+      <section className="panel mt-5 p-6 sm:p-8">
+        <h2 className="font-display text-lg font-semibold uppercase">Sesión</h2>
+        <p className="mt-2 text-sm text-muted">Cierra tu sesión en este dispositivo. Tu progreso permanecerá guardado.</p>
+        <form action={signOutAction} className="mt-5">
+          <button type="submit" className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-warning/35 bg-warning/[0.07] px-5 font-display text-xs font-semibold uppercase tracking-[0.1em] text-warning transition active:scale-[.98] sm:w-auto">
+            <LogOut size={17} /> Cerrar sesión
+          </button>
+        </form>
+      </section>
     </div>
   );
 }
 
 function formatDate(value: string) { return new Intl.DateTimeFormat("es-MX", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(`${value}T12:00:00Z`)); }
 function formatWeight(kg: number, units: "metric" | "imperial") { return units === "imperial" ? `${(kg * 2.2046226218).toFixed(1)} lb` : `${kg.toFixed(1)} kg`; }
-

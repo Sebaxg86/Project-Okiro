@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   BarChart3,
   CalendarDays,
   Home,
   LogOut,
+  LoaderCircle,
   Plus,
   Settings,
   ShieldCheck,
@@ -14,6 +16,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { signOutAction } from "@/modules/auth/actions";
+import { RouteLoading } from "@/modules/navigation/route-loading";
 
 const navItems = [
   { href: "/app", label: "Inicio", icon: Home },
@@ -22,9 +25,9 @@ const navItems = [
   { href: "/app/profile", label: "Perfil", icon: UserRound },
 ];
 
-function BrandMark() {
+function BrandMark({ onNavigate }: { onNavigate?: (href: string) => void }) {
   return (
-    <Link href="/app" className="flex items-center gap-3" aria-label="Ir al inicio de Okiro">
+    <Link href="/app" onClick={() => onNavigate?.("/app")} className="flex items-center gap-3 transition active:scale-95" aria-label="Ir al inicio de Okiro">
       <span className="relative grid size-9 place-items-center rounded-[11px] border border-accent/35 bg-accent/10">
         <span className="size-3.5 rotate-45 rounded-[4px] border-2 border-accent" />
         <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-cyan shadow-[0_0_12px_#00e5ff]" />
@@ -34,21 +37,22 @@ function BrandMark() {
   );
 }
 
-function NavLink({ href, label, icon: Icon }: (typeof navItems)[number]) {
+function NavLink({ href, label, icon: Icon, onNavigate, pending }: (typeof navItems)[number] & { onNavigate: (href: string) => void; pending: boolean }) {
   const pathname = usePathname();
   const active = href === "/app" ? pathname === href : pathname.startsWith(href);
 
   return (
     <Link
       href={href}
+      onClick={() => onNavigate(href)}
       aria-current={active ? "page" : undefined}
-      className={`flex h-11 items-center gap-3 rounded-xl px-3 text-sm transition ${
+      className={`flex h-11 items-center gap-3 rounded-xl px-3 text-sm transition duration-150 active:scale-[.96] ${
         active
           ? "bg-accent/10 font-medium text-accent"
           : "text-muted hover:bg-white/[0.04] hover:text-foreground"
       }`}
     >
-      <Icon size={18} aria-hidden="true" />
+      {pending ? <LoaderCircle size={18} className="animate-spin text-cyan" aria-hidden="true" /> : <Icon size={18} aria-hidden="true" />}
       <span>{label}</span>
     </Link>
   );
@@ -63,19 +67,32 @@ export function AppShell({
   email: string;
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const [navigation, setNavigation] = useState<{ href: string; from: string } | null>(null);
+  const pendingHref = navigation?.from === pathname ? navigation.href : null;
+  const beginNavigation = (href: string) => {
+    if (href.split("?")[0] !== pathname) setNavigation({ href, from: pathname });
+  };
+
+  useEffect(() => {
+    if (!navigation) return;
+    const timeout = window.setTimeout(() => setNavigation(null), 12_000);
+    return () => window.clearTimeout(timeout);
+  }, [navigation]);
+
   return (
     <div className="app-grid min-h-screen bg-background">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[244px] border-r border-line/70 bg-[#05050e]/95 px-5 py-6 lg:flex lg:flex-col">
-        <BrandMark />
+        <BrandMark onNavigate={beginNavigation} />
         <p className="mt-2 pl-12 font-display text-[9px] uppercase tracking-[0.22em] text-muted">
           Sistema personal
         </p>
 
         <nav className="mt-12 space-y-1" aria-label="Navegación principal">
-          <NavLink {...navItems[0]} />
-          <Link href="/app/log" className="flex h-11 items-center gap-3 rounded-xl px-3 text-sm text-muted transition hover:bg-white/[0.04] hover:text-foreground"><Plus size={18} />Registrar</Link>
-          <Link href="/app/missions" className="flex h-11 items-center gap-3 rounded-xl px-3 text-sm text-muted transition hover:bg-white/[0.04] hover:text-foreground"><Target size={18} />Misiones</Link>
-          {navItems.slice(1).map((item) => <NavLink key={item.href} {...item} />)}
+          <NavLink {...navItems[0]} onNavigate={beginNavigation} pending={pendingHref === navItems[0].href} />
+          <Link href="/app/log" onClick={() => beginNavigation("/app/log")} className="flex h-11 items-center gap-3 rounded-xl px-3 text-sm text-muted transition duration-150 hover:bg-white/[0.04] hover:text-foreground active:scale-[.96]">{pendingHref === "/app/log" ? <LoaderCircle size={18} className="animate-spin text-cyan" /> : <Plus size={18} />}Registrar</Link>
+          <Link href="/app/missions" onClick={() => beginNavigation("/app/missions")} className="flex h-11 items-center gap-3 rounded-xl px-3 text-sm text-muted transition duration-150 hover:bg-white/[0.04] hover:text-foreground active:scale-[.96]">{pendingHref === "/app/missions" ? <LoaderCircle size={18} className="animate-spin text-cyan" /> : <Target size={18} />}Misiones</Link>
+          {navItems.slice(1).map((item) => <NavLink key={item.href} {...item} onNavigate={beginNavigation} pending={pendingHref === item.href} />)}
         </nav>
 
         <div className="mt-auto rounded-2xl border border-line/80 bg-surface p-4">
@@ -100,33 +117,40 @@ export function AppShell({
       </aside>
 
       <header className="sticky top-0 z-20 flex h-[calc(4rem+env(safe-area-inset-top))] items-center justify-between border-b border-line/70 bg-[#05050e]/90 px-5 pt-[env(safe-area-inset-top)] backdrop-blur lg:hidden">
-        <BrandMark />
-        <Link href="/app/profile" className="grid size-9 place-items-center rounded-xl border border-line bg-surface text-muted" aria-label="Abrir perfil">
-          <UserRound size={18} />
+        <BrandMark onNavigate={beginNavigation} />
+        <Link href="/app/profile" onClick={() => beginNavigation("/app/profile")} className="grid size-9 place-items-center rounded-xl border border-line bg-surface text-muted transition active:scale-90" aria-label="Abrir perfil">
+          {pendingHref === "/app/profile" ? <LoaderCircle size={18} className="animate-spin text-cyan" /> : <UserRound size={18} />}
         </Link>
       </header>
 
-      <main className="min-h-screen pb-28 lg:ml-[244px] lg:pb-8">{children}</main>
+      <main className="relative min-h-screen pb-28 lg:ml-[244px] lg:pb-8">
+        {pendingHref && <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] top-[calc(4rem+env(safe-area-inset-top))] z-10 overflow-hidden bg-background lg:bottom-0 lg:left-[244px] lg:top-0"><RouteLoading destination={destinationLabel(pendingHref)} /></div>}
+        {children}
+      </main>
 
       <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line/80 bg-[#05050e]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur lg:hidden" aria-label="Navegación móvil">
-        {navItems.slice(0, 2).map((item) => <MobileNavLink key={item.href} {...item} />)}
-        <Link href="/app/log" className="mx-auto grid size-12 -translate-y-4 place-items-center rounded-2xl bg-accent text-white shadow-[0_0_24px_rgba(139,92,255,.35)]" aria-label="Registrar actividad">
-          <Plus size={22} />
+        {navItems.slice(0, 2).map((item) => <MobileNavLink key={item.href} {...item} onNavigate={beginNavigation} pending={pendingHref === item.href} />)}
+        <Link href="/app/log" onClick={() => beginNavigation("/app/log")} className="mx-auto grid size-12 -translate-y-4 place-items-center rounded-2xl bg-accent text-white shadow-[0_0_24px_rgba(139,92,255,.35)] transition duration-150 active:scale-90" aria-label="Registrar actividad">
+          {pendingHref === "/app/log" ? <LoaderCircle size={21} className="animate-spin" /> : <Plus size={22} />}
         </Link>
-        {navItems.slice(2).map((item) => <MobileNavLink key={item.href} {...item} />)}
+        {navItems.slice(2).map((item) => <MobileNavLink key={item.href} {...item} onNavigate={beginNavigation} pending={pendingHref === item.href} />)}
       </nav>
     </div>
   );
 }
 
-function MobileNavLink({ href, label, icon: Icon }: (typeof navItems)[number]) {
+function MobileNavLink({ href, label, icon: Icon, onNavigate, pending }: (typeof navItems)[number] & { onNavigate: (href: string) => void; pending: boolean }) {
   const pathname = usePathname();
   const active = href === "/app" ? pathname === href : pathname.startsWith(href);
 
   return (
-    <Link href={href} aria-current={active ? "page" : undefined} className={`flex min-w-0 flex-col items-center gap-1 py-1 text-[10px] ${active ? "text-cyan" : "text-muted"}`}>
-      <Icon size={18} />
+    <Link href={href} onClick={() => onNavigate(href)} aria-current={active ? "page" : undefined} className={`flex min-w-0 flex-col items-center gap-1 py-1 text-[10px] transition duration-150 active:scale-90 ${active || pending ? "text-cyan" : "text-muted"}`}>
+      {pending ? <LoaderCircle size={18} className="animate-spin" /> : <Icon size={18} />}
       <span className="truncate">{label}</span>
     </Link>
   );
+}
+
+function destinationLabel(href: string) {
+  return ({ "/app": "Inicio", "/app/history": "Historial", "/app/progress": "Progreso", "/app/profile": "Perfil", "/app/log": "Registro", "/app/missions": "Misiones" } as Record<string, string>)[href] ?? "la sección";
 }

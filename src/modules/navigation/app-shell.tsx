@@ -99,7 +99,7 @@ export function AppShell({
         </form>
       </aside>
 
-      <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-line/70 bg-[#05050e]/90 px-5 backdrop-blur lg:hidden">
+      <header className="sticky top-0 z-20 flex h-[calc(4rem+env(safe-area-inset-top))] items-center justify-between border-b border-line/70 bg-[#05050e]/90 px-5 pt-[env(safe-area-inset-top)] backdrop-blur lg:hidden">
         <BrandMark />
         <Link href="/app/profile" className="grid size-9 place-items-center rounded-xl border border-line bg-surface text-muted" aria-label="Abrir perfil">
           <UserRound size={18} />

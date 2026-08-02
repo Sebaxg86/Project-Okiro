@@ -35,7 +35,7 @@ function Brand() {
 export default function HomePage() {
   return (
     <main className="app-grid min-h-screen overflow-hidden bg-background">
-      <header className="relative z-30 border-b border-line/60 bg-background/80 backdrop-blur-xl">
+      <header className="relative z-30 border-b border-line/60 bg-background/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-[1320px] items-center justify-between px-5 sm:px-8">
           <Brand />
           <nav className="flex items-center gap-2" aria-label="Acceso">

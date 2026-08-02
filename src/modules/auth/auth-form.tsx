@@ -1,8 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState } from "react";
-import { Eye, EyeOff, LoaderCircle, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
+import { useActionState, useEffect, useRef, useState } from "react";
+import {
+  Cake,
+  Eye,
+  EyeOff,
+  LoaderCircle,
+  LockKeyhole,
+  Mail,
+  Scale,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 import {
   loginAction,
   registerAction,
@@ -10,6 +20,52 @@ import {
 } from "./actions";
 
 const initialState: AuthActionState = {};
+
+function TextField({
+  name,
+  label,
+  placeholder,
+  autoComplete,
+  icon: Icon,
+  type = "text",
+  required = false,
+  min,
+  max,
+  step,
+}: {
+  name: string;
+  label: string;
+  placeholder?: string;
+  autoComplete?: string;
+  icon: typeof UserRound;
+  type?: "text" | "date" | "number";
+  required?: boolean;
+  min?: string;
+  max?: string;
+  step?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block font-display text-[10px] font-medium uppercase tracking-[0.16em] text-muted">
+        {label}
+      </span>
+      <span className="relative block">
+        <Icon className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-accent" size={17} aria-hidden="true" />
+        <input
+          name={name}
+          type={type}
+          autoComplete={autoComplete}
+          required={required}
+          min={min}
+          max={max}
+          step={step}
+          className="h-12 w-full border border-line bg-[#060611] pl-11 pr-4 text-base text-foreground outline-none transition placeholder:text-muted/50 focus:border-cyan/70 focus:shadow-[0_0_0_3px_rgba(0,229,255,.08)] [clip-path:polygon(0_8px,8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%)]"
+          placeholder={placeholder}
+        />
+      </span>
+    </label>
+  );
+}
 
 function PasswordField({
   name,
@@ -55,10 +111,61 @@ export function AuthForm({ mode, next }: { mode: "login" | "register"; next?: st
   const action = mode === "login" ? loginAction : registerAction;
   const [state, formAction, pending] = useActionState(action, initialState);
   const isRegister = mode === "register";
+  const timezoneRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (timezoneRef.current) {
+      timezoneRef.current.value = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+    }
+  }, []);
 
   return (
     <form action={formAction} className="space-y-5" noValidate>
       {next && <input type="hidden" name="next" value={next} />}
+      {isRegister && (
+        <>
+          <input ref={timezoneRef} type="hidden" name="timezone" defaultValue="UTC" />
+          <TextField
+            name="fullName"
+            label="Nombre completo"
+            placeholder="Tu nombre y apellidos"
+            autoComplete="name"
+            icon={UserRound}
+            required
+          />
+          <TextField
+            name="displayName"
+            label="Nombre preferido"
+            placeholder="Cómo quieres que te llamemos"
+            autoComplete="nickname"
+            icon={UserRound}
+            required
+          />
+          <div className="grid gap-5 sm:grid-cols-2">
+            <TextField
+              name="birthDate"
+              label="Cumpleaños · opcional"
+              autoComplete="bday"
+              icon={Cake}
+              type="date"
+            />
+            <TextField
+              name="weightKg"
+              label="Peso inicial · kg · opcional"
+              placeholder="72.5"
+              autoComplete="off"
+              icon={Scale}
+              type="number"
+              min="20"
+              max="500"
+              step="0.1"
+            />
+          </div>
+          <p className="-mt-2 text-xs leading-5 text-muted">
+            Tu cumpleaños y peso son privados. El peso se guarda como el primer punto de tu historial y nunca genera ni resta XP.
+          </p>
+        </>
+      )}
       <label className="block">
         <span className="mb-2 block font-display text-[10px] font-medium uppercase tracking-[0.16em] text-muted">Correo electrónico</span>
         <span className="relative block">

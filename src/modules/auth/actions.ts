@@ -48,6 +48,11 @@ export async function registerAction(
   formData: FormData,
 ): Promise<AuthActionState> {
   const parsed = registerSchema.safeParse({
+    fullName: formData.get("fullName"),
+    displayName: formData.get("displayName"),
+    birthDate: formData.get("birthDate") ?? "",
+    weightKg: formData.get("weightKg") ?? "",
+    timezone: formData.get("timezone") ?? "UTC",
     email: formData.get("email"),
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),
@@ -72,7 +77,14 @@ export async function registerAction(
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback?next=/app`,
+      emailRedirectTo: `${origin}/auth/callback?next=/onboarding`,
+      data: {
+        full_name: parsed.data.fullName,
+        display_name: parsed.data.displayName,
+        birth_date: parsed.data.birthDate || null,
+        weight_kg: parsed.data.weightKg || null,
+        timezone: parsed.data.timezone,
+      },
     },
   });
 
@@ -81,7 +93,7 @@ export async function registerAction(
   }
 
   if (data.session) {
-    redirect("/app");
+    redirect("/onboarding");
   }
 
   redirect(`/verify-email?email=${encodeURIComponent(parsed.data.email)}`);

@@ -69,8 +69,15 @@ export default async function DashboardPage() {
               <div className="grid size-full place-items-center rounded-full border border-line bg-[#070712] text-center shadow-[inset_0_0_28px_rgba(0,0,0,.55)]"><div><p className="font-display text-xs uppercase tracking-[0.2em] text-muted">Nivel</p><p className="mt-1 font-display text-6xl font-bold leading-none text-foreground">{progress?.current_level ?? 1}</p><p className="mt-2 font-display text-[9px] uppercase tracking-[0.16em] text-cyan">{Math.round(projectedPercent)}% completado</p></div></div>
             </div>
             <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"><span className="flex items-center gap-2 text-muted"><span className="size-2 rounded-full bg-accent" />Asegurada</span><span className="flex items-center gap-2 text-cyan"><span className="size-2 rounded-full bg-cyan" />Pendiente</span></div>
-              <div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-xl border border-line/70 bg-black/10 p-3"><p className="text-[10px] text-muted">XP del nivel</p><p className="mt-1 font-semibold">{progress?.current_level_xp ?? 0} <span className="text-xs font-normal text-muted">/ {progress?.xp_required_for_next_level ?? 400}</span></p></div><div className="rounded-xl border border-line/70 bg-black/10 p-3"><p className="text-[10px] text-muted">XP pendiente</p><p className={`mt-1 font-semibold ${provisionalXp < 0 ? "text-warning" : "text-cyan"}`}>{provisionalXp > 0 ? "+" : ""}{provisionalXp}</p></div></div>
+              <div className="grid grid-cols-[.72fr_1.28fr] gap-3">
+                <div className="grid min-h-36 place-items-center rounded-xl border border-accent/30 bg-accent/[0.06] p-3 text-center">
+                  <div><p className="font-display text-[9px] uppercase tracking-[0.16em] text-muted">Rango actual</p><p className={`mt-2 font-display text-5xl font-bold leading-none ${rankColor(live?.rank ?? "E")}`}>{live?.rank ?? "E"}</p></div>
+                </div>
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px]"><span className="flex items-center gap-2 text-muted"><span className="size-1.5 rounded-full bg-accent" />Asegurada</span><span className="flex items-center gap-2 text-cyan"><span className="size-1.5 rounded-full bg-cyan" />Pendiente</span></div>
+                  <div className="mt-3 grid gap-2"><div className="rounded-xl border border-line/70 bg-black/10 p-3"><p className="text-[10px] text-muted">XP del nivel</p><p className="mt-1 font-semibold">{progress?.current_level_xp ?? 0} <span className="text-xs font-normal text-muted">/ {progress?.xp_required_for_next_level ?? 400}</span></p></div><div className="rounded-xl border border-line/70 bg-black/10 p-3"><p className="text-[10px] text-muted">XP pendiente</p><p className={`mt-1 font-semibold ${provisionalXp < 0 ? "text-warning" : "text-cyan"}`}>{provisionalXp > 0 ? "+" : ""}{provisionalXp}</p></div></div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="mt-7 border-t border-line/60 pt-5"><p className="font-display text-[9px] uppercase tracking-[0.15em] text-muted">Atributos en ascenso</p><div className="mt-3 grid grid-cols-2 gap-3">{attributes.map((attribute) => <MiniAttributeCard key={attribute.attribute} attribute={attribute} pending={attributePending(attribute.attribute)} />)}</div></div>

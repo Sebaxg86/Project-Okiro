@@ -5,7 +5,9 @@ const validOnboarding = {
   timezone: "America/Mexico_City",
   unitSystem: "metric",
   exerciseDaysTarget: "5",
-  programmingDaysTarget: "3",
+  intelligenceDaysTarget: "3",
+  intelligenceActivityType: "programming",
+  intelligenceCustomLabel: "",
   hydrationTargetMl: "2500",
   sleepMinHours: "7",
   sleepMaxHours: "9",
@@ -23,5 +25,9 @@ describe("onboardingSchema", () => {
     expect(onboardingSchema.safeParse({ ...validOnboarding, sleepMinHours: "10", sleepMaxHours: "7" }).success).toBe(false);
     expect(onboardingSchema.safeParse({ ...validOnboarding, exerciseDaysTarget: "9" }).success).toBe(false);
   });
-});
 
+  it("accepts a named custom intelligence activity and rejects an empty one", () => {
+    expect(onboardingSchema.safeParse({ ...validOnboarding, intelligenceActivityType: "custom", intelligenceCustomLabel: "Debate" }).success).toBe(true);
+    expect(onboardingSchema.safeParse({ ...validOnboarding, intelligenceActivityType: "custom", intelligenceCustomLabel: "" }).success).toBe(false);
+  });
+});

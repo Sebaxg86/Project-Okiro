@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
-import { LoaderCircle, ShieldCheck } from "lucide-react";
+import { useActionState, useEffect, useRef, useState } from "react";
+import { Brain, LoaderCircle, ShieldCheck } from "lucide-react";
 import { completeOnboardingAction, type OnboardingActionState } from "./actions";
+import { getIntelligenceActivity, intelligenceActivities } from "@/modules/intelligence/activities";
 
 const initialState: OnboardingActionState = {};
 
@@ -21,6 +22,9 @@ function NumberField({ name, label, defaultValue, min, max, step = 1, suffix }: 
 export function OnboardingForm({ initialTimezone }: { initialTimezone: string }) {
   const [state, action, pending] = useActionState(completeOnboardingAction, initialState);
   const timezoneRef = useRef<HTMLInputElement>(null);
+  const [intelligenceType, setIntelligenceType] = useState("programming");
+  const selectedIntelligence = getIntelligenceActivity(intelligenceType);
+  const IntelligenceIcon = selectedIntelligence.icon;
 
   useEffect(() => {
     if (initialTimezone === "UTC" && timezoneRef.current) {
@@ -52,7 +56,23 @@ export function OnboardingForm({ initialTimezone }: { initialTimezone: string })
         <h2 className="font-display text-sm font-semibold uppercase tracking-[0.12em] text-cyan">02 · Objetivos semanales</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <NumberField name="exerciseDaysTarget" label="Ejercicio" defaultValue={5} min={0} max={7} step={0.5} suffix="días" />
-          <NumberField name="programmingDaysTarget" label="Programación" defaultValue={3} min={0} max={7} suffix="días" />
+          <div className="sm:col-span-2 rounded-xl border border-accent/25 bg-accent/[0.045] p-4 sm:p-5">
+            <div className="flex items-start gap-4">
+              <div className="grid size-11 shrink-0 place-items-center rounded-xl border border-accent/30 bg-accent/10 text-accent"><IntelligenceIcon size={21} /></div>
+              <div className="min-w-0 flex-1">
+                <label className="block">
+                  <span className="mb-2 block font-display text-[10px] uppercase tracking-[0.15em] text-muted">Actividad principal de inteligencia</span>
+                  <select name="intelligenceActivityType" value={intelligenceType} onChange={(event) => setIntelligenceType(event.target.value)} className="h-12 w-full rounded-xl border border-line bg-[#060611] px-4 text-foreground outline-none focus:border-cyan/70">
+                    {intelligenceActivities.map((activity) => <option key={activity.type} value={activity.type}>{activity.label}</option>)}
+                  </select>
+                </label>
+                <p className="mt-2 text-xs leading-5 text-muted">{selectedIntelligence.description}. Esta elección personalizará tus misiones y registros.</p>
+              </div>
+            </div>
+            {intelligenceType === "custom" && <label className="mt-4 block"><span className="mb-2 flex items-center gap-2 font-display text-[10px] uppercase tracking-[0.15em] text-muted"><Brain size={14} className="text-cyan" /> Nombre de tu actividad</span><input name="intelligenceCustomLabel" required minLength={2} maxLength={60} placeholder="Ej. debate, filosofía o fotografía" className="h-12 w-full rounded-xl border border-line bg-[#060611] px-4 text-foreground outline-none focus:border-cyan/70" /></label>}
+            {intelligenceType !== "custom" && <input type="hidden" name="intelligenceCustomLabel" value="" />}
+          </div>
+          <NumberField name="intelligenceDaysTarget" label={`Días de ${selectedIntelligence.label.toLowerCase()}`} defaultValue={3} min={0} max={7} suffix="días" />
           <NumberField name="hydrationTargetMl" label="Hidratación diaria" defaultValue={2500} min={250} max={10000} step={50} suffix="ml" />
           <NumberField name="expectedMainMeals" label="Comidas principales" defaultValue={3} min={1} max={8} suffix="al día" />
           <NumberField name="flexibleMealsPerWeek" label="Comidas flexibles" defaultValue={2} min={0} max={21} suffix="semana" />

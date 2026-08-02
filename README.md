@@ -34,6 +34,7 @@ The first application foundation is ready and includes:
 - Real-time weekly ranks from S through E with coverage safeguards
 - Goal-aware daily missions with automatic completion and weekly bonus limits
 - Five calculated attributes: Strength, Endurance, Vitality, Intelligence, and Discipline
+- A configurable Intelligence activity with icon-based presets and a custom option
 - Daily and weekly streaks with one-time milestone rewards
 - Scheduled, auditable, and idempotent weekly closing with permanent progression
 - Consolidated weekly reports with pillar scores and XP breakdowns

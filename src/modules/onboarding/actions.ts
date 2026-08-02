@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { onboardingSchema } from "./schema";
+import { intelligenceActivityLabel } from "@/modules/intelligence/activities";
 
 export type OnboardingActionState = { error?: string };
 
@@ -15,7 +16,9 @@ export async function completeOnboardingAction(
     timezone: formData.get("timezone"),
     unitSystem: formData.get("unitSystem"),
     exerciseDaysTarget: formData.get("exerciseDaysTarget"),
-    programmingDaysTarget: formData.get("programmingDaysTarget"),
+    intelligenceDaysTarget: formData.get("intelligenceDaysTarget"),
+    intelligenceActivityType: formData.get("intelligenceActivityType"),
+    intelligenceCustomLabel: formData.get("intelligenceCustomLabel") ?? "",
     hydrationTargetMl: formData.get("hydrationTargetMl"),
     sleepMinHours: formData.get("sleepMinHours"),
     sleepMaxHours: formData.get("sleepMaxHours"),
@@ -33,11 +36,13 @@ export async function completeOnboardingAction(
   if (!user) redirect("/login?next=/onboarding");
 
   const values = parsed.data;
-  const { error } = await supabase.rpc("complete_onboarding", {
+  const { error } = await supabase.rpc("complete_onboarding_v2", {
     p_timezone: values.timezone,
     p_unit_system: values.unitSystem,
     p_exercise_days_target: values.exerciseDaysTarget,
-    p_programming_days_target: values.programmingDaysTarget,
+    p_programming_days_target: values.intelligenceDaysTarget,
+    p_intelligence_activity_type: values.intelligenceActivityType,
+    p_intelligence_activity_label: intelligenceActivityLabel(values.intelligenceActivityType, values.intelligenceCustomLabel),
     p_hydration_target_ml: values.hydrationTargetMl,
     p_sleep_min_minutes: Math.round(values.sleepMinHours * 60),
     p_sleep_max_minutes: Math.round(values.sleepMaxHours * 60),
@@ -51,4 +56,3 @@ export async function completeOnboardingAction(
   revalidatePath("/app", "layout");
   redirect("/app");
 }
-

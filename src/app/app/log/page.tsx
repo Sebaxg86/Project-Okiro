@@ -12,7 +12,10 @@ export default async function LogPage({ searchParams }: { searchParams: Promise<
   const kind = activityKinds.includes(params.type as ActivityKind) ? params.type as ActivityKind : "hydration";
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const { data: profile } = await supabase.from("profiles").select("timezone").eq("id", user!.id).single();
+  const [{ data: profile }, { data: intelligenceGoal }] = await Promise.all([
+    supabase.from("profiles").select("timezone").eq("id", user!.id).single(),
+    supabase.from("goal_versions").select("intelligence_activity_type,intelligence_activity_label").eq("user_id", user!.id).is("effective_until", null).maybeSingle(),
+  ]);
   const timezone = profile?.timezone ?? "UTC";
   const now = new Date();
   const defaults: Record<string, string> = {
@@ -28,7 +31,7 @@ export default async function LogPage({ searchParams }: { searchParams: Promise<
   return (
     <div className="mx-auto max-w-4xl px-5 py-8 sm:px-8 lg:px-10">
       <header><p className="flex items-center gap-2 font-display text-[10px] uppercase tracking-[0.22em] text-cyan"><Sparkles size={14} /> Registro verificado</p><h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[-0.04em]">{params.id ? "Editar actividad" : "Registrar actividad"}</h1><p className="mt-2 text-sm text-muted">La XP se calcula en el servidor y respeta los límites diarios y semanales.</p></header>
-      <section className="system-frame panel mt-8 p-6 sm:p-8"><ActivityForm kind={kind} initial={{ ...defaults, ...initial }} idempotencyKey={randomUUID()} /></section>
+      <section className="system-frame panel mt-8 p-6 sm:p-8"><ActivityForm kind={kind} initial={{ ...defaults, ...initial }} idempotencyKey={randomUUID()} intelligenceType={intelligenceGoal?.intelligence_activity_type ?? "programming"} intelligenceLabel={intelligenceGoal?.intelligence_activity_label ?? "Programación"} /></section>
     </div>
   );
 }
@@ -51,9 +54,8 @@ async function loadActivity(supabase: Awaited<ReturnType<typeof createClient>>, 
     const { data } = await supabase.from("hydration_entries").select("id,occurred_at,local_date,amount_ml").eq("id", id).eq("user_id", userId).is("deleted_at", null).maybeSingle();
     return data ? { recordId: data.id, localDate: data.local_date, time: formatTime(data.occurred_at, timezone), amountMl: String(data.amount_ml) } : null;
   }
-  const { data } = await supabase.from("focus_sessions").select("id,started_at,local_date,duration_minutes,focus_type,objective,project_name,notes").eq("id", id).eq("user_id", userId).is("deleted_at", null).maybeSingle();
-  return data ? { recordId: data.id, localDate: data.local_date, time: formatTime(data.started_at, timezone), durationMinutes: String(data.duration_minutes), focusType: data.focus_type, objective: data.objective, projectName: data.project_name ?? "", notes: data.notes ?? "" } : null;
+  const { data } = await supabase.from("focus_sessions").select("id,started_at,local_date,duration_minutes,focus_type,intelligence_activity_type,objective,project_name,notes").eq("id", id).eq("user_id", userId).is("deleted_at", null).maybeSingle();
+  return data ? { recordId: data.id, localDate: data.local_date, time: formatTime(data.started_at, timezone), durationMinutes: String(data.duration_minutes), focusType: data.intelligence_activity_type ?? data.focus_type, objective: data.objective, projectName: data.project_name ?? "", notes: data.notes ?? "" } : null;
 }
 
 function formatTime(value: string, timezone: string) { return new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: timezone }).format(new Date(value)); }
-

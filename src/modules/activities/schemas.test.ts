@@ -16,5 +16,9 @@ describe("activity schemas", () => {
     expect(activitySchema.safeParse({ ...base, kind: "workout", time: "08:00", durationMinutes: "0", workoutType: "strength", intensity: "moderate", title: "", notes: "" }).success).toBe(false);
     expect(activitySchema.safeParse({ ...base, kind: "focus", time: "09:00", durationMinutes: "50", focusType: "programming", objective: "", projectName: "", notes: "" }).success).toBe(false);
   });
-});
 
+  it("accepts predefined and custom intelligence activity records", () => {
+    expect(activitySchema.safeParse({ ...base, kind: "focus", time: "09:00", durationMinutes: "50", focusType: "chess", objective: "Resolver problemas tácticos", projectName: "", notes: "" }).success).toBe(true);
+    expect(activitySchema.safeParse({ ...base, kind: "focus", time: "09:00", durationMinutes: "30", focusType: "custom", objective: "Practicar debate", projectName: "", notes: "" }).success).toBe(true);
+  });
+});

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { intelligenceActivityTypes } from "@/modules/intelligence/activities";
 
 export const activityKinds = ["workout", "sleep", "meal", "hydration", "focus"] as const;
 export type ActivityKind = (typeof activityKinds)[number];
@@ -56,7 +57,7 @@ export const focusSchema = z.object({
   ...base,
   time: localTime,
   durationMinutes: z.coerce.number().int().min(1).max(720),
-  focusType: z.enum(["programming", "technical_study", "exercises", "course", "technical_reading", "personal_project"]),
+  focusType: z.enum([...intelligenceActivityTypes, "technical_study", "exercises", "course", "technical_reading", "personal_project"]),
   objective: z.string().trim().min(2, "Escribe el objetivo de la sesión.").max(200),
   projectName: optionalText(120),
   notes: optionalText(1000),
@@ -67,4 +68,3 @@ export const activitySchema = z.discriminatedUnion("kind", [workoutSchema, sleep
 export function parseActivityForm(formData: FormData) {
   return activitySchema.safeParse(Object.fromEntries(formData.entries()));
 }
-

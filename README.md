@@ -4,7 +4,7 @@ A mobile-first PWA that turns healthy habits and focused work into balanced, RPG
 
 ## 🌐 Live Demo
 
-> [Click here to view the live site](https://your-live-link.com)
+> [Click here to view the live site](https://project-okiro.vercel.app)
 
 ## ⚙️ Technologies Used
 

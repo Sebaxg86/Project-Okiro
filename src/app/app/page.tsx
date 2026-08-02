@@ -61,55 +61,30 @@ export default async function DashboardPage() {
         <div><p className="font-display text-[10px] uppercase tracking-[0.22em] text-cyan">Sistema activo · ciclo en curso</p><h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[-0.04em] sm:text-4xl">Bienvenido, {profile?.display_name}</h1><p className="mt-2 capitalize text-sm text-muted">{todayLabel}</p></div>
       </header>
 
-      <section className="mt-8">
-        <article className="system-frame panel relative overflow-hidden">
-          <div className="pointer-events-none absolute -left-24 top-1/2 size-72 -translate-y-1/2 rounded-full bg-accent/[0.13] blur-3xl" />
-          <div className="pointer-events-none absolute right-0 top-0 h-px w-2/3 bg-gradient-to-l from-cyan/70 to-transparent shadow-[0_0_22px_rgba(0,229,255,.45)]" />
-
-          <div className="relative grid lg:grid-cols-[.36fr_.64fr]">
-            <div className="border-b border-line/70 p-6 sm:p-8 lg:border-b-0 lg:border-r">
-              <div className="flex items-center justify-between">
-                <div><p className="font-display text-[10px] uppercase tracking-[0.2em] text-cyan">Rango del ciclo</p><p className="mt-2 text-sm text-muted">Tu posición cambia con cada acción.</p></div>
-                <Trophy className={rankColor(live?.rank ?? "E")} size={24} />
-              </div>
-              <div className="mt-5 grid grid-cols-[auto_1fr] items-center gap-7 lg:block">
-                <div className={`font-display text-8xl font-bold leading-none sm:text-9xl lg:my-9 lg:text-center ${rankColor(live?.rank ?? "E")}`}>{live?.rank ?? "E"}</div>
-                <div className="grid grid-cols-2 gap-3 lg:border-t lg:border-line/60 lg:pt-5">
-                  <div><p className="font-display text-2xl font-semibold">{Number(live?.rank_score ?? 0).toFixed(1)}</p><p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-muted">Evaluación</p></div>
-                  <div><p className="font-display text-2xl font-semibold">{Number(live?.data_coverage ?? 0).toFixed(0)}%</p><p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-muted">Sincronía</p></div>
-                </div>
-              </div>
+      <section className="mt-8 grid gap-5 lg:grid-cols-[1.4fr_.6fr]">
+        <article className="system-frame panel p-6 sm:p-8">
+          <div className="flex items-center justify-between gap-4"><div><p className="font-display text-[10px] uppercase tracking-[0.18em] text-muted">Ascenso previsto</p><p className="mt-2 text-sm text-muted">Progreso de nivel</p></div><div className="grid size-10 place-items-center rounded-xl border border-cyan/30 bg-cyan/[0.07] text-cyan"><Zap size={19} /></div></div>
+          <div className="mt-7 flex flex-col items-center gap-7 sm:flex-row sm:items-center sm:gap-9">
+            <div className="relative grid size-44 shrink-0 place-items-center rounded-full p-2.5 shadow-[0_0_38px_rgba(0,229,255,.13)] transition-[background] duration-700 sm:size-48" style={{ background: `conic-gradient(var(--accent) 0 ${permanentPercent}%, var(--cyan) ${permanentPercent}% ${projectedPercent}%, #17152d ${projectedPercent}% 100%)` }} aria-label={`${Math.round(projectedPercent)}% del nivel completado`}>
+              <div className="grid size-full place-items-center rounded-full border border-line bg-[#070712] text-center shadow-[inset_0_0_28px_rgba(0,0,0,.55)]"><div><p className="font-display text-xs uppercase tracking-[0.2em] text-muted">Nivel</p><p className="mt-1 font-display text-6xl font-bold leading-none text-foreground">{progress?.current_level ?? 1}</p><p className="mt-2 font-display text-[9px] uppercase tracking-[0.16em] text-cyan">{Math.round(projectedPercent)}% completado</p></div></div>
             </div>
-
-            <div className="p-6 sm:p-8">
-              <div className="flex items-center justify-between gap-4"><div><p className="font-display text-[10px] uppercase tracking-[0.2em] text-cyan">Ascenso previsto</p><p className="mt-2 text-sm text-muted">La energía del ciclo se suma a tu avance permanente.</p></div><div className="grid size-10 shrink-0 place-items-center rounded-xl border border-cyan/30 bg-cyan/[0.07] text-cyan"><Zap size={19} /></div></div>
-
-              <div className="mt-7 grid items-center gap-6 sm:grid-cols-[136px_1fr] sm:gap-8">
-                <div className="relative mx-auto grid size-32 place-items-center rounded-full p-2 shadow-[0_0_38px_rgba(0,229,255,.13)] transition-[background] duration-700 sm:size-[136px]" style={{ background: `conic-gradient(var(--accent) 0 ${permanentPercent}%, var(--cyan) ${permanentPercent}% ${projectedPercent}%, #17152d ${projectedPercent}% 100%)` }} aria-label={`${Math.round(projectedPercent)}% del nivel completado`}>
-                  <div className="grid size-full place-items-center rounded-full border border-line bg-[#070712] text-center shadow-[inset_0_0_24px_rgba(0,0,0,.6)]"><div><p className="font-display text-[9px] uppercase tracking-[0.2em] text-muted">Nivel</p><p className="mt-1 font-display text-5xl font-bold leading-none text-foreground">{progress?.current_level ?? 1}</p><p className="mt-2 font-display text-[8px] uppercase tracking-[0.14em] text-cyan">{Math.round(projectedPercent)}%</p></div></div>
-                </div>
-
-                <div className="min-w-0">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="relative overflow-hidden rounded-xl border border-accent/30 bg-accent/[0.07] p-4"><div className="absolute inset-y-0 left-0 w-0.5 bg-accent" /><div className="flex items-center gap-2 text-accent"><ShieldCheck size={14} /><p className="font-display text-[9px] uppercase tracking-[0.13em]">Base permanente</p></div><p className="mt-3 font-display text-2xl font-semibold">{progress?.current_level_xp ?? 0}</p><p className="mt-1 text-[10px] text-muted">de {progress?.xp_required_for_next_level ?? 400} XP</p></div>
-                    <div className={`relative overflow-hidden rounded-xl border p-4 ${provisionalXp < 0 ? "border-warning/30 bg-warning/[0.06]" : "border-cyan/30 bg-cyan/[0.06]"}`}><div className={`absolute inset-y-0 left-0 w-0.5 ${provisionalXp < 0 ? "bg-warning" : "bg-cyan"}`} /><div className={`flex items-center gap-2 ${provisionalXp < 0 ? "text-warning" : "text-cyan"}`}><Zap size={14} /><p className="font-display text-[9px] uppercase tracking-[0.13em]">Impulso del ciclo</p></div><p className={`mt-3 font-display text-2xl font-semibold ${provisionalXp < 0 ? "text-warning" : "text-cyan"}`}>{provisionalXp > 0 ? "+" : ""}{provisionalXp}</p><p className="mt-1 text-[10px] text-muted">se resolverá al sellar el ciclo</p></div>
-                  </div>
-                  <div className="mt-4">
-                    <div className="relative h-2 overflow-hidden rounded-full bg-[#17152d]"><div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-accent/70 to-cyan/70 transition-[width] duration-700" style={{ width: `${projectedPercent}%` }} /><div className="absolute inset-y-0 left-0 rounded-full bg-accent transition-[width] duration-700" style={{ width: `${permanentPercent}%` }} /></div>
-                    <div className="mt-2 flex justify-between font-display text-[9px] uppercase tracking-[0.11em] text-muted"><span>Nivel {progress?.current_level ?? 1}</span><span>Siguiente ascenso</span></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-7 border-t border-line/60 pt-5"><div className="flex items-center justify-between"><p className="font-display text-[9px] uppercase tracking-[0.15em] text-muted">Atributos en ascenso</p><span className="text-[10px] text-cyan">+ impulso proyectado</span></div><div className="mt-3 grid grid-cols-2 gap-3">{attributes.map((attribute) => <MiniAttributeCard key={attribute.attribute} attribute={attribute} pending={attributePending(attribute.attribute)} />)}</div></div>
-
-              <div className="mt-6 border-t border-line/60 pt-5">
-                <div className="flex justify-between text-xs text-muted"><span>Energía del ciclo</span><span>{Math.max(0, provisionalXp)} / 1,000 XP</span></div>
-                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#17152d]"><div className="h-full rounded-full bg-gradient-to-r from-accent to-cyan transition-[width] duration-500" style={{ width: `${weeklyPercent}%` }} /></div>
-                <p className="mt-4 flex items-center gap-2 text-xs text-muted"><ShieldCheck size={15} className="text-cyan" />{progress?.total_consolidated_xp ?? 0} XP protegida en tu trayectoria</p>
-              </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"><span className="flex items-center gap-2 text-muted"><span className="size-2 rounded-full bg-accent" />Asegurada</span><span className="flex items-center gap-2 text-cyan"><span className="size-2 rounded-full bg-cyan" />Pendiente</span></div>
+              <div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-xl border border-line/70 bg-black/10 p-3"><p className="text-[10px] text-muted">XP del nivel</p><p className="mt-1 font-semibold">{progress?.current_level_xp ?? 0} <span className="text-xs font-normal text-muted">/ {progress?.xp_required_for_next_level ?? 400}</span></p></div><div className="rounded-xl border border-line/70 bg-black/10 p-3"><p className="text-[10px] text-muted">XP pendiente</p><p className={`mt-1 font-semibold ${provisionalXp < 0 ? "text-warning" : "text-cyan"}`}>{provisionalXp > 0 ? "+" : ""}{provisionalXp}</p></div></div>
             </div>
           </div>
+          <div className="mt-7 border-t border-line/60 pt-5"><p className="font-display text-[9px] uppercase tracking-[0.15em] text-muted">Atributos en ascenso</p><div className="mt-3 grid grid-cols-2 gap-3">{attributes.map((attribute) => <MiniAttributeCard key={attribute.attribute} attribute={attribute} pending={attributePending(attribute.attribute)} />)}</div></div>
+          <div className="mt-7 border-t border-line/60 pt-5">
+            <div className="flex justify-between text-xs text-muted"><span>Estado del ciclo</span><span>{Math.max(0, provisionalXp)} / 1,000 XP</span></div>
+            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#17152d]"><div className="h-full rounded-full bg-gradient-to-r from-accent to-cyan transition-[width] duration-500" style={{ width: `${weeklyPercent}%` }} /></div>
+            <p className="mt-4 flex items-center gap-2 text-sm text-muted"><ShieldCheck size={16} className="text-cyan" />{progress?.total_consolidated_xp ?? 0} XP permanente</p>
+          </div>
+        </article>
+
+        <article className="panel flex flex-col p-6">
+          <div className="flex items-center justify-between"><div><p className="font-display text-[10px] uppercase tracking-[0.16em] text-muted">Rango actual</p><p className="mt-1 text-sm text-muted">El rango cambiará con tus acciones.</p></div><Trophy className={rankColor(live?.rank ?? "E")} size={22} /></div>
+          <div className={`my-auto py-6 text-center font-display text-8xl font-bold ${rankColor(live?.rank ?? "E")}`}>{live?.rank ?? "E"}</div>
+          <div className="flex items-end justify-between border-t border-line/60 pt-4"><div><p className="text-2xl font-semibold">{Number(live?.rank_score ?? 0).toFixed(1)}</p><p className="text-xs text-muted">Evaluación</p></div><div className="text-right"><p className="font-semibold">{Number(live?.data_coverage ?? 0).toFixed(0)}%</p><p className="text-xs text-muted">Sincronía</p></div></div>
         </article>
       </section>
 

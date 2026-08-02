@@ -32,6 +32,11 @@ export default async function LoginPage({
           La conexión con Supabase debe configurarse antes de iniciar sesión.
         </div>
       )}
+      {params.status === "session-expired" && (
+        <div className="mb-5 border border-cyan/25 bg-cyan/[0.06] px-4 py-3 text-sm text-cyan">
+          Tu sesión se cerró después de 15 días sin actividad. Inicia sesión para continuar.
+        </div>
+      )}
       <AuthForm mode="login" next={params.next} />
     </AuthShell>
   );

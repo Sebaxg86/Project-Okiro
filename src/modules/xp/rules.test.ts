@@ -1,9 +1,44 @@
 import { describe, expect, it } from "vitest";
 import {
   consolidateWeek,
+  focusDailyXp,
+  hydrationDailyXp,
+  mealBaseXp,
   rankFromScore,
+  sleepDurationXp,
+  workoutBaseXp,
   xpRequiredForNextLevel,
 } from "./rules";
+
+describe("activity XP rules", () => {
+  it("scores structured and recovery workouts by duration", () => {
+    expect(workoutBaseXp(19, "strength")).toBe(0);
+    expect(workoutBaseXp(45, "strength")).toBe(70);
+    expect(workoutBaseXp(90, "strength")).toBe(80);
+    expect(workoutBaseXp(45, "walking")).toBe(30);
+  });
+
+  it("scores sleep duration without rewarding more than ten hours", () => {
+    expect(sleepDurationXp(450)).toBe(30);
+    expect(sleepDurationXp(320)).toBe(-10);
+    expect(sleepDurationXp(250)).toBe(-25);
+    expect(sleepDurationXp(620)).toBe(0);
+  });
+
+  it("uses neutral meal classifications and snack rules", () => {
+    expect(mealBaseXp("lunch", "balanced")).toBe(10);
+    expect(mealBaseXp("dinner", "out_of_plan")).toBe(-8);
+    expect(mealBaseXp("snack", "balanced")).toBe(2);
+    expect(mealBaseXp("snack", "out_of_plan")).toBe(-3);
+  });
+
+  it("caps hydration and focused work tiers", () => {
+    expect(hydrationDailyXp(2500, 2500)).toBe(15);
+    expect(hydrationDailyXp(5000, 2500)).toBe(15);
+    expect(focusDailyXp(24)).toBe(0);
+    expect(focusDailyXp(90)).toBe(40);
+  });
+});
 
 describe("consolidateWeek", () => {
   it("applies the weekly penalty cap", () => {

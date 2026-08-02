@@ -6,7 +6,11 @@ export default function PrivacyPage() {
       <article className="panel system-frame mx-auto max-w-3xl p-7 sm:p-10">
         <p className="font-display text-[10px] uppercase tracking-[0.22em] text-cyan">Documento preliminar</p>
         <h1 className="mt-3 text-3xl font-semibold uppercase">Aviso de privacidad</h1>
-        <p className="mt-6 leading-7 text-muted">Los datos de cada usuario serán privados y estarán aislados mediante políticas de acceso en Supabase. Este aviso deberá completarse y revisarse legalmente antes del lanzamiento público.</p>
+        <div className="mt-6 space-y-4 leading-7 text-muted">
+          <p>Okiro almacena los datos necesarios para operar tu cuenta: correo, nombre completo, nombre preferido y, cuando decides proporcionarlos, cumpleaños, objetivos y mediciones de peso.</p>
+          <p>El cumpleaños y el peso son opcionales y privados. Se utilizan exclusivamente para tu seguimiento personal; no producen recompensas, penalizaciones ni comparaciones públicas.</p>
+          <p>Los datos de cada usuario están aislados mediante políticas de acceso en Supabase. Este aviso es preliminar y deberá completarse y revisarse legalmente antes del lanzamiento público.</p>
+        </div>
         <Link href="/register" className="mt-8 inline-block font-semibold text-cyan hover:underline">Volver al registro</Link>
       </article>
     </main>

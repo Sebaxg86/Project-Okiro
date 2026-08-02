@@ -9,31 +9,31 @@ A mobile-first PWA that turns healthy habits and focused work into balanced, RPG
 ## ⚙️ Technologies Used
 
 - Next.js, React, and TypeScript
-- Supabase (Auth, PostgreSQL, Row Level Security, Edge Functions, Cron, and Storage)
-- Tailwind CSS and shadcn/ui
+- Supabase Auth, PostgreSQL, and Row Level Security
+- Tailwind CSS, Zod, Vitest, and Testing Library
 
 ## 📚 Description
 
 This project was developed as a personal product-development initiative and includes:
 
-- ✅ Daily tracking for exercise, sleep, nutrition, hydration, and programming sessions
-- ✅ An auditable XP system with levels, attributes, weekly ranks, missions, streaks, and reports
-- ✅ A secure, responsive, installable PWA with per-user data isolation through Row Level Security
+- ✅ Email authentication, profile creation, and goal onboarding
+- ✅ Private weight history separated from the XP economy
+- ✅ A secure, responsive PWA foundation with per-user data isolation through Row Level Security
 
 ## 🧭 Current Stage
 
 The first application foundation is ready and includes:
 
-- A responsive, mobile-first progress dashboard
-- Interactive daily missions and quick activity logging
-- Weekly XP, rank, streak, pillar, and recent-activity views
+- A responsive dashboard backed by real account data
+- Profile, onboarding, goals, weekly-cycle, progress, and weight persistence
+- Functional History, Progress, and Profile navigation
 - A tested initial XP domain module
-- Cookie-based Supabase authentication foundations for server and browser flows
+- Cookie-based Supabase authentication for server and browser flows
 - PWA metadata, application icon, and social preview metadata
 - Email/password registration and sign-in with Supabase SSR
-- A public landing page and protected `/app` dashboard
+- A public landing page and onboarding-protected `/app` area
 
-The dashboard currently uses representative habit data while persistent activity records are connected.
+Activity registration and XP transactions are the next implementation stage. New accounts intentionally begin with empty activity and XP states; the application does not display representative user data.
 
 ## 💻 Local Development
 

@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+:root {
+  --background: #03030a;
+  --surface: #080816;
+  --surface-raised: #101025;
+  --line: #29245a;
+  --foreground: #f4f1ff;
+  --muted: #9690b0;
+  --accent: #8b5cff;
+  --accent-strong: #a983ff;
+  --cyan: #00e5ff;
+  --warning: #ff4fa3;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-cyan: var(--cyan);
+  --color-warning: var(--warning);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-display);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+  color: white;
+}
+
+.app-grid {
+  background-image:
+    radial-gradient(circle at 74% 12%, rgba(104, 53, 255, 0.14), transparent 26rem),
+    linear-gradient(rgba(139, 92, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.025) 1px, transparent 1px);
+  background-size: auto, 44px 44px, 44px 44px;
+}
+
+.panel {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  background:
+    linear-gradient(135deg, rgba(139, 92, 255, 0.08), transparent 32%),
+    color-mix(in srgb, var(--surface) 96%, transparent);
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  clip-path: polygon(0 14px, 14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px));
+}
+
+.system-frame {
+  position: relative;
+}
+
+.system-frame::before,
+.system-frame::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  width: 34px;
+  height: 10px;
+  pointer-events: none;
+}
+
+.system-frame::before {
+  left: -1px;
+  top: -1px;
+  border-left: 2px solid var(--cyan);
+  border-top: 2px solid var(--cyan);
+  filter: drop-shadow(0 0 7px rgba(0, 229, 255, 0.45));
+}
+
+.system-frame::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  filter: drop-shadow(0 0 7px rgba(139, 92, 255, 0.45));
+}
+
+.progress-ring {
+  background: conic-gradient(var(--cyan) var(--progress), #17152d 0);
+  box-shadow: 0 0 34px rgba(0, 229, 255, 0.14);
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.enter-up {
+  animation: enter-up 420ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

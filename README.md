@@ -27,13 +27,16 @@ The first application foundation is ready and includes:
 - A responsive dashboard backed by real account data
 - Profile, onboarding, goals, weekly-cycle, progress, and weight persistence
 - Functional History, Progress, and Profile navigation
+- Real exercise, sleep, meal, hydration, and programming records
+- Server-calculated provisional XP with daily and weekly limits
+- Auditable recalculation, idempotent retries, editing, and soft deletion
 - A tested initial XP domain module
 - Cookie-based Supabase authentication for server and browser flows
 - PWA metadata, application icon, and social preview metadata
 - Email/password registration and sign-in with Supabase SSR
 - A public landing page and onboarding-protected `/app` area
 
-Activity registration and XP transactions are the next implementation stage. New accounts intentionally begin with empty activity and XP states; the application does not display representative user data.
+New accounts intentionally begin with empty activity and XP states; the application does not display representative user data. Weekly consolidation, ranks, missions, and streaks remain future stages.
 
 ## 💻 Local Development
 

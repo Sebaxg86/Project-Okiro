@@ -71,7 +71,9 @@ export function AppShell({
         </p>
 
         <nav className="mt-12 space-y-1" aria-label="Navegación principal">
-          {navItems.map((item) => <NavLink key={item.href} {...item} />)}
+          <NavLink {...navItems[0]} />
+          <Link href="/app/log" className="flex h-11 items-center gap-3 rounded-xl px-3 text-sm text-muted transition hover:bg-white/[0.04] hover:text-foreground"><Plus size={18} />Registrar</Link>
+          {navItems.slice(1).map((item) => <NavLink key={item.href} {...item} />)}
         </nav>
 
         <div className="mt-auto rounded-2xl border border-line/80 bg-surface p-4">
@@ -106,7 +108,7 @@ export function AppShell({
 
       <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line/80 bg-[#05050e]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur lg:hidden" aria-label="Navegación móvil">
         {navItems.slice(0, 2).map((item) => <MobileNavLink key={item.href} {...item} />)}
-        <Link href="/app/profile#weight" className="mx-auto grid size-12 -translate-y-4 place-items-center rounded-2xl bg-accent text-white shadow-[0_0_24px_rgba(139,92,255,.35)]" aria-label="Registrar peso">
+        <Link href="/app/log" className="mx-auto grid size-12 -translate-y-4 place-items-center rounded-2xl bg-accent text-white shadow-[0_0_24px_rgba(139,92,255,.35)]" aria-label="Registrar actividad">
           <Plus size={22} />
         </Link>
         {navItems.slice(2).map((item) => <MobileNavLink key={item.href} {...item} />)}

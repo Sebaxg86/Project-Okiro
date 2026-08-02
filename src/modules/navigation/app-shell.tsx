@@ -127,8 +127,8 @@ export function AppShell({
 
       <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line/80 bg-[#05050e]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur lg:hidden" aria-label="Navegación móvil">
         {navItems.slice(0, 2).map((item) => <MobileNavLink key={item.href} {...item} onNavigate={beginNavigation} pending={pendingHref === item.href} />)}
-        <Link href="/app/log" onClick={() => beginNavigation("/app/log")} className="mx-auto grid size-12 -translate-y-4 place-items-center rounded-2xl bg-accent text-white shadow-[0_0_24px_rgba(139,92,255,.35)] transition duration-150 active:scale-90" aria-label="Registrar actividad">
-          {pendingHref === "/app/log" ? <LoaderCircle size={21} className="animate-spin" /> : <Plus size={22} />}
+        <Link href="/app/log" onClick={() => beginNavigation("/app/log")} className="mx-auto grid size-14 -translate-y-5 place-items-center rounded-[1.15rem] bg-accent text-white shadow-[0_0_28px_rgba(139,92,255,.42)] ring-4 ring-[#05050e] transition duration-150 active:scale-90" aria-label="Registrar actividad">
+          {pendingHref === "/app/log" ? <LoaderCircle size={24} className="animate-spin" /> : <Plus size={25} />}
         </Link>
         {navItems.slice(2).map((item) => <MobileNavLink key={item.href} {...item} onNavigate={beginNavigation} pending={pendingHref === item.href} />)}
       </nav>
